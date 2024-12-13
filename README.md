@@ -6,7 +6,8 @@
 ### 1. Naming convention
 - Sử dụng `options` API của Vue
 - Routes: đặt tên theo kebab-case (`/about/contact-information`)
-- Để chạy front-end
+
+### 2. Run front-end
 
 ```
 $ cd client
@@ -27,3 +28,10 @@ $ npm run serve
 - `/models`:  User.js, Product.js, Category.js...
 - `/controllers`:  userC.js, productC.js...
 - `/routes`: userR.js, adminR.js...
+
+### Run backend
+```
+$ cd server
+$ npm install
+$ npm start
+```
