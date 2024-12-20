@@ -25,9 +25,9 @@
 
 
                   <div class="text-center">
-                    <button class="btn mb-3"> 
+                    <a class="btn mb-3" href="http://localhost:3000/auth/login/google" > 
                         <i class="bi bi-google text-danger"></i> <span> Continue with Google </span>
-                    </button>
+                    </a>
                   </div>
                 
                 <div class="text-center">
@@ -71,7 +71,18 @@ export default {
                 router.push({ name: 'Home'})
             }
             catch (err) { this.showError(err.response.data.message || err.message ) } 
+        },
+        handleGoogleLogin() {
+            const urlParams = new URLSearchParams(window.location.search)
+            const token = urlParams.get('token')
+            if (token) {
+                localStorage.setItem('jwt', token)
+                router.push({ name: 'Home'})
+            }
         }
+    },
+    mounted() {
+        this.handleGoogleLogin()
     }
 }
 </script>

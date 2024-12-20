@@ -25,8 +25,8 @@
                     <input type="text" v-model=name id="fullname-input" class="form-control form-control-lg" required />
                   </div>
 
-                  <div v-if="error" class="alert alert-danger text-center" role="alert">
-                    {{ error }}
+                  <div v-if="feedback" ref="serverMessage" class="alert text-center" :class="{ 'alert-success': feedback.success, 'alert-danger': !feedback.success}" role="alert">
+                    {{ feedback.message }}
                   </div>
 
                   <div class="pt-1 mb-4 text-center">
@@ -51,19 +51,19 @@ export default {
             password: "admin",
             email: "admin@examples.com",
             name: "John Doe",
-            error: "",
+            feedback: null
         }
     },
     methods: {
-        offError() {
-            this.error = null
+        offFeedback() {
+            this.feedback = null
         },
-        showError(msg) {
-            this.error = msg
+        showFeedback(feedback) {
+            this.feedback = feedback
         },
         async handleSubmit() {
             try {
-                this.offError()
+                this.offFeedback()
                 const body = {
                     username: this.username,
                     password: this.password,
@@ -71,10 +71,14 @@ export default {
                     name: this.name
                 }
                 const res = await axios.post('http://localhost:3000/auth/register', body)
-                console.log(res)
+                const data = res.data
+                const feedback = { success: data.success, message: data.message}
+                this.showFeedback(feedback)
             }
             catch (err) { 
-                this.showError(err.response.data.message || err.message)
+                console.log(err)
+                const feedback = { success: false, message: err.response?.data?.message || err.message }
+                this.showFeedback(feedback)
             }
         }
     }

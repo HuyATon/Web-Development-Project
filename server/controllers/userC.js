@@ -9,7 +9,6 @@ module.exports = {
 
     register: async (req, res, next) => {
         try {
-            console.log('reached')
             const { username, password, email, name } = req.body
             const storedUser = await User.findOne({ username: username})
 
@@ -27,6 +26,7 @@ module.exports = {
                     email: email,
                     name: name
                 })
+                console.log('foo')
                 await user.save()
                 res.status(statusCode.CREATED).json({
                     success: true,
@@ -41,8 +41,13 @@ module.exports = {
         try {
             const { username, password } = req.body
             const storedUser = await User.findOne({ username: username})
+            
             if (!storedUser) {
                 const err = new APIError(statusCode.NOT_FOUND, 'Username is not found.')
+                return next(err)
+            }
+            if (storedUser.googleID) {
+                const err = new APIError(statusCode.UNAUTHORIZED, 'User is registered with Google.')
                 return next(err)
             }
             const match = await bcrypt.compare(password, storedUser.password)

@@ -7,11 +7,14 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     name: 'Profile View',
     methods: {
         async handleLogout() {
+            await axios.get('/auth/logout')
             localStorage.removeItem('jwt')
+            this.$router.push({ name: 'Home'})
         }
     }
 }
