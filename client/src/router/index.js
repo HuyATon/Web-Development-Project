@@ -5,6 +5,7 @@ import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import ErrorView from '../views/ErrorView.vue'
+import CategoryManagementView from '../views/CategoryManagementView.vue'
 
 const routes = [
   {
@@ -35,7 +36,13 @@ const routes = [
     name: 'Profile',
     component: ProfileView,
     meta: { requiresAuth: true } // [NOTE]: mark protected routes
-  }
+  },
+  {
+    path: '/admin/category',
+    name: 'CategoryManagement',
+    component: CategoryManagementView,
+    meta: { requiresAuth: true }
+    }
 ]
 
 const router = createRouter({

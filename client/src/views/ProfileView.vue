@@ -1,9 +1,11 @@
 <template>
-    <h1> Profile View </h1>
+    <div>
+        <h1> Profile View </h1>
 
     <button class="btn btn-danger text-white fw-bold" @click=handleLogout>
         Log Out
     </button>
+    </div>
 </template>
 
 <script>

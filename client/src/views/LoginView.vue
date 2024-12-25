@@ -1,5 +1,5 @@
 <template>
-    <div class="row vh-100 align-items-center p-2" id='view-container'>
+    <div class="row vh-100 align-items-center p-4" id='view-container'>
         <div class="col text-center">
             <h1 class="text-dark"> <strong > Login </strong> to your account</h1>
         </div>

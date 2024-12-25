@@ -2,7 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const db = require('./configs/db.js')
 const cors = require('cors')
-const authR = require('./routes/authR.js')
+const routes = require('./routes/index.js')
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -18,7 +18,7 @@ const passport = require('passport')
 require('./configs/passportConfig.js')(app)
 
 // routes
-app.use('/auth', authR)
+app.use(routes)
 
 const checkBlackList = require('./middlewares/jwtBlackList.js')
 app.get('/protected', passport.authenticate('jwt', { session: false }), checkBlackList, (req, res) => {
