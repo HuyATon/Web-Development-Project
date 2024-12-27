@@ -5,7 +5,8 @@
     <router-link to="/login"> Login </router-link> |
     <router-link to="/register"> Register </router-link> |
     <router-link to="/profile"> Profile </router-link> |
-    <router-link to="/admin/category"> Category Management (Admin) </router-link>
+    <router-link to="/admin/category"> Category Management (Admin) </router-link> |
+    <router-link to='/cart'> Cart </router-link>
   </nav>
   <router-view/>
 </template>
@@ -34,5 +35,9 @@ nav a.router-link-exact-active {
 
 .text-tint {
   color: rgb(172, 148, 58)
+}
+
+.bg-tint {
+  background-color: rgb(248, 242, 234);
 }
 </style>

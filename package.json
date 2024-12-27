@@ -1,0 +1,14 @@
+{
+  "name": "web-development-project",
+  "version": "1.0.0",
+  "description": "- Chỉ push code lên branch `develop` ## Refs - API tham khảo: `https://furniture-api.fly.dev/#api-endpoints` - Figma: `https://www.figma.com/design/gixsabCBgccjd2B8afw0a7/eCommerce-Website-%7C-Web-Page-Design-%7C-UI-KIT-%7C-Interior-Landing-Page-(Community)?node-id=0-1&p=f&t=twMyE89MLEiXLEg3-0` ## Front-end ### 1. Naming convention - Sử dụng `options` API của Vue - Routes: đặt tên theo kebab-case (`/about/contact-information`)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:client": "cd client && npm run serve",
+    "start:server": "cd server && npm start",
+    "start": "concurrently \"npm run start:client\" \"npm run start:server\""
+  },
+  "author": "",
+  "license": "ISC"
+}

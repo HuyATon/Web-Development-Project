@@ -6,6 +6,7 @@ import RegisterView from '../views/RegisterView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import ErrorView from '../views/ErrorView.vue'
 import CategoryManagementView from '../views/CategoryManagementView.vue'
+import CartView from '../views/CartView.vue'
 
 const routes = [
   {
@@ -42,6 +43,11 @@ const routes = [
     name: 'CategoryManagement',
     component: CategoryManagementView,
     meta: { requiresAuth: true }
+    },
+    {
+      path: '/cart',
+      name: 'Cart',
+      component: CartView
     }
 ]
 
