@@ -1,6 +1,6 @@
 <template>
     <div>
-        
+
         <div class="row px-5 gx-4 my-4">
             <div class="col-md-8">
                 <table class="table">
@@ -120,12 +120,12 @@
                                 <h6>Total</h6>
                             </div>
                             <div class="col">
-                                <h5 class="text-tint fw-bold">$500</h5>
+                                <h5 class="text-tint fw-bold ">$500</h5>
                             </div>
                         </div>
                     
                     <div class="text-center">
-                        <button class="btn py-2 px-5 mb-3 rounded border-black">Checkout</button>
+                        <button class="btn py-2 px-5 mb-3 rounded bg-white border-black">Checkout</button>
                     </div>
                     </div>
                 </div>

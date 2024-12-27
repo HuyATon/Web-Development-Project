@@ -18,7 +18,7 @@
         </div>
         
        </div>
-       <table class="table table-striped table-bordered">
+       <table class="table table-bordered">
         <thead>
             <tr>
             <th scope="col">#</th>
@@ -34,7 +34,7 @@
             <td>{{ category.products.length }}</td>
             <td>
                 <div class="btn-group">
-                    <button class="btn btn-secondary btn-sm rounded" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-light border btn-sm rounded" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="bi bi-three-dots"></i>
                     </button>
                     <div class="dropdown-menu">
@@ -60,7 +60,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-dark" @click="handleAddCategory">Add</button>
+        <button type="button" class="btn border-black" @click="handleAddCategory">Add</button>
       </div>
     </div>
   </div>
@@ -79,7 +79,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-dark" @click="handleEdit">Confirm</button>
+        <button type="button" class="btn border-black" @click="handleEdit">Confirm</button>
       </div>
     </div>
   </div>
@@ -227,6 +227,9 @@ export default {
 </script>
 
 <style scoped>
+.table thead th {
+    background-color: rgb(248, 242, 234);
+}
 
 .bg-ultra-thin {
     background-color: rgba(255, 255, 255, 0.5);
