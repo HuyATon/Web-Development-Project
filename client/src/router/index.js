@@ -6,6 +6,7 @@ import RegisterView from '../views/RegisterView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import ErrorView from '../views/ErrorView.vue'
 import CategoryManagementView from '../views/CategoryManagementView.vue'
+import ProductManagementView from '../views/ProductManagementView.vue'
 import CartView from '../views/CartView.vue'
 import CheckoutView from '../views/CheckoutView.vue'
 
@@ -44,17 +45,23 @@ const routes = [
     name: 'CategoryManagement',
     component: CategoryManagementView,
     meta: { requiresAuth: true }
-    },
-    {
-      path: '/cart',
-      name: 'Cart',
-      component: CartView
-    },
-    {
-      path: '/checkout',
-      name: 'Checkout',
-      component: CheckoutView
-    }
+  },
+  {
+    path: '/admin/product',
+    name: 'ProductManagement',
+    component: ProductManagementView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: CartView
+  },
+  {
+    path: '/checkout',
+    name: 'Checkout',
+    component: CheckoutView
+  }
 ]
 
 const router = createRouter({
@@ -65,13 +72,13 @@ const router = createRouter({
 // Setup routes protect (navigation guard)
 router.beforeEach((to, from) => {
   const isRequiredAuth = to.meta.requiresAuth || false
-  
+
   if (!isRequiredAuth) {
     return true
   }
   const token = localStorage.getItem('jwt')
   if (!token) {
-    return { name: 'Login'}
+    return { name: 'Login' }
   }
   const decoded = jwtDecode(token)
   const currentTime = Date.now() / 1000
