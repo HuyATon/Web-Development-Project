@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const schema = new mongoose.Schema({
     id: {
         type: String,
-        required: true,
+        required: false,
         unique: true,
     },
     name: {
@@ -27,9 +27,9 @@ const schema = new mongoose.Schema({
         default: null,
     },
     dimensions: {
-        depth: { type: Number, required: true },
-        width: { type: Number, required: true },
-        height: { type: Number, required: true },
+        depth: { type: Number, default: 0 },
+        width: { type: Number, default: 0 },
+        height: { type: Number, default: 0 },
     },
     price: {
         type: Number,
