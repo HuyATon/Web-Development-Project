@@ -4,6 +4,7 @@ const statusCode = require('../constants/statusCode.js');
 const Category = require('../models/Category');
 const { v4: uuidv4 } = require('uuid');
 
+
 module.exports = {
     all: async (req, res, next) => {
         try {
@@ -11,24 +12,20 @@ module.exports = {
                 limit = 10,
                 offset = 0,
                 sort,
-                name,        // case insensitive
-                category      //case sénsitive
+                name,
+                category
             } = req.query;
 
+            const parsedLimit = parseInt(limit, 10);
+            const parsedOffset = parseInt(offset, 10);
 
-            const parsedLimit = parseInt(limit);
             if (isNaN(parsedLimit) || parsedLimit <= 0) {
-                const err = new APIError(statusCode.BAD_REQUEST, "Invalid limit value");
-                return next(err);
+                return next(new APIError(statusCode.BAD_REQUEST, "Invalid limit value"));
             }
 
-
-            const parsedOffset = parseInt(offset);
             if (isNaN(parsedOffset) || parsedOffset < 0) {
-                const err = new APIError(statusCode.BAD_REQUEST, "Invalid offset value");
-                return next(err);
+                return next(new APIError(statusCode.BAD_REQUEST, "Invalid offset value"));
             }
-
 
             let sortOptions = {};
             if (sort) {
@@ -36,24 +33,21 @@ module.exports = {
                 sortOptions[field] = direction === 'desc' ? -1 : 1;
             }
 
-
             const query = {};
             if (name) {
                 query.$or = [
-                    { name: { $regex: name, $options: 'i' } },
-                    { category: { $regex: name, $options: 'i' } },
+                    { name: { $regex: name, $options: 'i' } }
                 ];
             }
             if (category) {
                 query.category = category;
             }
 
-
             const products = await Product.find(query)
                 .sort(sortOptions)
                 .skip(parsedOffset)
-                .limit(parsedLimit);
-
+                .limit(parsedLimit)
+                .populate('category', 'name'); 
 
             const total = await Product.countDocuments(query);
 
@@ -73,14 +67,12 @@ module.exports = {
 
     getById: async (req, res, next) => {
         try {
-            const id = req.params.id;
+            const { id } = req.params;
 
-
-            const product = await Product.findOne({ id: id });
+            const product = await Product.findById(id).populate('category', 'name');
 
             if (!product) {
-                const err = new APIError(statusCode.NOT_FOUND, 'Product not found');
-                return next(err);
+                return next(new APIError(statusCode.NOT_FOUND, 'Product not found'));
             }
 
             res.json({
@@ -107,31 +99,22 @@ module.exports = {
                 stock,
                 sku,
                 status,
-                created_at,
-                updated_at,
                 featured,
                 discount_price,
                 tags,
             } = req.body;
 
-            const existingCategory = await Category.findOne({ name: category });
-            if (!existingCategory) {
-                const err = new APIError(statusCode.NOT_FOUND, `Category '${category}' does not exist`);
-                return next(err);
-            }
+            // const existingCategory = await Category.findById(category);
+            // if (!existingCategory) {
+            //     return next(new APIError(statusCode.NOT_FOUND, `Category with ID '${category}' does not exist`));
+            // }
+
             const existingProduct = await Product.findOne({ name });
             if (existingProduct) {
-                const err = new APIError(statusCode.CONFLICT, `Product with this '${name}' already exists`);
-                return next(err);
+                return next(new APIError(statusCode.CONFLICT, `Product with name '${name}' already exists`));
             }
 
-            const id = uuidv4();
-
-
-            const now = new Date().toISOString();
-            const newCreatedAt = created_at || now;
-            const newUpdatedAt = updated_at || now;
-
+            const id = uuidv4()
 
             const newProduct = new Product({
                 id,
@@ -147,13 +130,10 @@ module.exports = {
                 stock,
                 sku,
                 status,
-                created_at: newCreatedAt,
-                updated_at: newUpdatedAt,
                 featured,
                 discount_price,
                 tags,
             });
-
 
             await newProduct.save();
 
@@ -183,38 +163,29 @@ module.exports = {
                 stock,
                 sku,
                 status,
-                updated_at,
                 featured,
                 discount_price,
                 tags,
             } = req.body;
 
-
-            const product = await Product.findOne({ id });
+            const product = await Product.findById(id);
             if (!product) {
-                const err = new APIError(statusCode.NOT_FOUND, 'Product not found');
-                return next(err);
+                return next(new APIError(statusCode.NOT_FOUND, 'Product not found'));
             }
 
+            // if (category) {
+            //     const existingCategory = await Category.findById(category);
+            //     if (!existingCategory) {
+            //         return next(new APIError(statusCode.NOT_FOUND, `Category with ID '${category}' does not exist`));
+            //     }
+            //     product.category = category;
+            // }
 
-            const existingCategory = await Category.findOne({ name: category });
-            if (!existingCategory) {
-                const err = new APIError(statusCode.NOT_FOUND, `Category '${category}' does not exist`);
-                return next(err);
+            if (name && (await Product.findOne({ name, _id: { $ne: id } }))) {
+                return next(new APIError(statusCode.CONFLICT, `Product with name '${name}' already exists`));
             }
-
-            const existingProduct = await Product.findOne({ name });
-            if (existingProduct && existingProduct.id !== id) {
-                const err = new APIError(statusCode.CONFLICT, `Product with this ${name} already exists`);
-                return next(err);
-            }
-
-
-            const now = new Date().toISOString();
-            const newUpdatedAt = updated_at || now;
 
             product.name = name || product.name;
-            product.category = category || product.category;
             product.description = description || product.description;
             product.wood_type = wood_type || product.wood_type;
             product.finish = finish || product.finish;
@@ -225,11 +196,11 @@ module.exports = {
             product.stock = stock || product.stock;
             product.sku = sku || product.sku;
             product.status = status || product.status;
-            product.updated_at = newUpdatedAt;
             product.featured = featured || product.featured;
             product.discount_price = discount_price || product.discount_price;
             product.tags = tags || product.tags;
 
+            product.category = category || product.category
 
             await product.save();
 
@@ -246,89 +217,42 @@ module.exports = {
     delete: async (req, res, next) => {
         try {
             const { id } = req.params;
-
-            // Find the product by id
-            const product = await Product.findOne({ id });
-            if (!product) {
-                const err = new APIError(statusCode.NOT_FOUND, 'Product not found');
-                return next(err);
+            
+            const deletedProduct = await Product.findByIdAndDelete(id);
+            
+            if (!deletedProduct) {
+                throw new APIError(404, 'Product not found');
             }
-
-            // Delete the product
-            await Product.deleteOne({ id });
-
+    
             res.json({
                 success: true,
-                message: `Product with id "${id}" has been deleted.`,
+                message: 'Product deleted successfully'
             });
         } catch (err) {
             next(err);
         }
     },
-
 
     updateStock: async (req, res, next) => {
         try {
             const { id } = req.params;
             const { stock } = req.body;
 
-
             if (stock === undefined || stock < 0) {
-                const err = new APIError(statusCode.BAD_REQUEST, 'Invalid stock value');
-                return next(err);  
+                return next(new APIError(statusCode.BAD_REQUEST, 'Invalid stock value'));
             }
 
- 
-            const product = await Product.findOne({ id });
+            const product = await Product.findById(id);
             if (!product) {
-                const err = new APIError(statusCode.NOT_FOUND, 'Product not found');
-                return next(err); 
+                return next(new APIError(statusCode.NOT_FOUND, 'Product not found'));
             }
 
-            
             product.stock = stock;
-
-            
             await product.save();
 
             res.json({
                 success: true,
-                message: `Product stock updated successfully.`,
-                data: product,
-            });
-        } catch (err) {
-            next(err);  
-        }
-    },
-
-    
-    updateDiscount: async (req, res, next) => {
-        try {
-            const { id } = req.params;
-            const { discount_price } = req.body;
-
-
-            if (discount_price === undefined || discount_price < 0) {
-                const err = new APIError(statusCode.BAD_REQUEST, 'Invalid discount price');
-                return next(err);  
-            }
-
-           
-            const product = await Product.findOne({ id });
-            if (!product) {
-                const err = new APIError(statusCode.NOT_FOUND, 'Product not found');
-                return next(err);  
-            }
-
-           
-            product.discount_price = discount_price;
-
-
-            await product.save();
-
-            res.json({
-                success: true,
-                message: `Product discount updated successfully.`,
+                message: 'Product stock updated successfully.',
                 data: product,
             });
         } catch (err) {
@@ -336,4 +260,30 @@ module.exports = {
         }
     },
 
+    updateDiscount: async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            const { discount_price } = req.body;
+
+            if (discount_price === undefined || discount_price < 0) {
+                return next(new APIError(statusCode.BAD_REQUEST, 'Invalid discount price'));
+            }
+
+            const product = await Product.findById(id);
+            if (!product) {
+                return next(new APIError(statusCode.NOT_FOUND, 'Product not found'));
+            }
+
+            product.discount_price = discount_price;
+            await product.save();
+
+            res.json({
+                success: true,
+                message: 'Product discount updated successfully.',
+                data: product,
+            });
+        } catch (err) {
+            next(err);
+        }
+    },
 };

@@ -3,6 +3,7 @@ const express = require('express')
 const db = require('./configs/db.js')
 const cors = require('cors')
 const routes = require('./routes/index.js')
+const cloudinary = require('./configs/upload.js');
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -12,6 +13,12 @@ app.use(express.urlencoded({ extended: true }))
 
 // cors
 app.use(cors())
+
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_API_KEY,
+    api_secret: process.env.CLOUD_API_SECRET,
+});
 
 // passport
 const passport = require('passport')
