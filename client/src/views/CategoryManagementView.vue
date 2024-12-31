@@ -11,7 +11,7 @@
             </button>
         </div>
         <div class="d-flex align-items-center">
-            <input v-model="searchTerm" type="text" class="form-control" placeholder="search...">
+            <input v-model="searchTerm" type="text" class="form-control" placeholder="Search...">
             <div class="ms-2">
                 <i class="bi bi-search"></i>
             </div>

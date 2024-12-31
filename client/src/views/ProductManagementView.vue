@@ -42,7 +42,7 @@
                     <td v-else>—</td>
                     <td>{{ product.stock }}</td>
                     <td>
-                        <img :src="product.image_path" alt="Product Image"
+                        <img :src="product.image_path" alt="Product Image" class="rounded"
                             style="width: 50px; height: 50px; object-fit: cover;">
                     </td>
                     <td>

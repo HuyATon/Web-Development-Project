@@ -9,6 +9,7 @@ import CategoryManagementView from '../views/CategoryManagementView.vue'
 import ProductManagementView from '../views/ProductManagementView.vue'
 import CartView from '../views/CartView.vue'
 import CheckoutView from '../views/CheckoutView.vue'
+import ShopView from '../views/ShopView.vue'
 
 const routes = [
   {
@@ -61,6 +62,11 @@ const routes = [
     path: '/checkout',
     name: 'Checkout',
     component: CheckoutView
+  },
+  {
+    path: '/shop',
+    name: 'Shop',
+    component: ShopView
   }
 ]
 
