@@ -1,22 +1,3 @@
-<!-- <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
-</template>
-
-<script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
-export default {
-  name: 'HomeView',
-  components: {
-    HelloWorld
-  }
-}
-</script> -->
-
 <template>
   <div id="home">
 
@@ -430,16 +411,9 @@ export default {
   background-color: #f9f9f9;
 }
 
-/* .share-setup h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-} */
-
 .share-setup h2 span {
   color: #333;
 }
-
-
 
 .setup-gallery img {
   width: calc(30% - 1rem);
