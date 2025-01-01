@@ -138,7 +138,7 @@ export default {
 <script>
 import Footer from '@/components/Footer.vue'
 import axios from 'axios'
-
+import router from '@/router'
 export default {
   name: 'Home',
   components: {
