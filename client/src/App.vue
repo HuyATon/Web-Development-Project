@@ -7,6 +7,7 @@
     <router-link to="/profile"> Profile </router-link> |
     <router-link to="/admin/category"> Category Management (Admin) </router-link> |
     <router-link to="/admin/product"> Product Management (Admin) </router-link> |
+    <router-link to="/admin/statistic"> Statistics (Admin) </router-link> |
     <router-link to='/cart'> Cart </router-link> |
     <router-link to='/checkout'> Checkout </router-link>
   </nav>
