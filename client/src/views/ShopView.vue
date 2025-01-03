@@ -32,7 +32,10 @@
                         <div class="card-body">
                             <h6 class="fw-bold"> {{ product.name }}</h6>
                             <p class="card-text"> {{ product.category }} </p>
-                            <h6 class="fw-bolder"> ${{ product.price }}</h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="fw-bolder"> ${{ product.price }}</h6>
+                                <button class="btn border-black" @click="addToCart(product)">Add to Cart</button>
+                            </div>
                         </div>
                     </div>
             </div>
@@ -132,6 +135,9 @@ export default {
                 this.currentPage = page
             }
             this.loadProducts()
+        },
+        addToCart(product) {
+            this.$store.dispatch('addToCart', product)
         }
     },
     mounted() {

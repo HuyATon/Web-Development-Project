@@ -14,8 +14,6 @@ module.exports = app => {
 
     passport.use(new JwtStrategy(opts, async (jwt_payload, cb) => {
         try {
-            console.log('foo')
-            console.log(jwt_payload)
             const user = await User.findOne({ _id: jwt_payload.id })
             if (!user) { return cb(null, false) }
 

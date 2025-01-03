@@ -1,6 +1,6 @@
 <template>
     <div :class="{ 'text-bg-success': this.success, 'text-bg-danger': !this.success }" 
-    class="toast fade align-items-center border-0 position-absolute top-0 end-0" role="alert" aria-live="assertive" aria-atomic="true">
+    class="toast fade align-items-center border-0 position-absolute top-0 end-0 p-2" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="d-flex">
             <div class="toast-body">
                 {{ message }}
@@ -25,7 +25,7 @@ export default {
     },
     mounted() {
         const toast = new bootstrap.Toast($(".toast")[0], {
-            autohide: true,
+            autohide: false,
             delay: 2000
         })
         toast.show()

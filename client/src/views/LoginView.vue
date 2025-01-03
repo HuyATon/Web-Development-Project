@@ -75,6 +75,8 @@ export default {
                 const data = res.data
                 const jwtToken = data.token 
                 localStorage.setItem('jwt', jwtToken)
+                this.saveLoggedUser()
+                this.$store.dispatch('loadCart')
                 router.push({ name: 'Home'})
             }
             catch (err) { this.showError(err.response.data.message || err.message ) } 
@@ -84,9 +86,21 @@ export default {
             const token = urlParams.get('token')
             if (token) {
                 localStorage.setItem('jwt', token)
+                this.saveLoggedUser()
+                this.$store.dispatch('loadCart')
                 router.push({ name: 'Home'})
             }
-        }
+        },
+        async saveLoggedUser() {
+            try {
+                const res = await axios.get('users/me')
+                const user = res.data.user
+                this.$store.dispatch('setUser', user)
+            }
+            catch {
+                console.log('Error fetching user')
+            }
+        },
     },
     mounted() {
         this.handleGoogleLogin()

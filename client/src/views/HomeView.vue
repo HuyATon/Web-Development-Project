@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div id="home">
 
 
@@ -113,16 +114,29 @@
     </section>
 
     <Footer />
+=======
+  <div>
+    <Header/>
+    <h1>This is Home</h1>
+>>>>>>> feature
   </div>
 </template>
 
 <script>
+<<<<<<< HEAD
 import Footer from '@/components/Footer.vue'
 import axios from 'axios'
 import router from '@/router'
+=======
+// @ is an alias to /src
+import HelloWorld from '@/components/HelloWorld.vue'
+import Header from '@/components/Header.vue'
+
+>>>>>>> feature
 export default {
   name: 'Home',
   components: {
+<<<<<<< HEAD
     Footer
   },
   data() {
@@ -218,6 +232,10 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.slideInterval);
+=======
+    HelloWorld,
+    Header
+>>>>>>> feature
   }
 }
 </script>
