@@ -4,6 +4,12 @@ const APIError = require('../errors/API.js')
 const statusCode = require('../constants/statusCode.js')
 const jwt = require('jsonwebtoken')
 const blackListConfig= require('../configs/jwtBlackListConfig.js')
+const axios = require('axios')
+
+async function createPaymentAccount(userID) {
+    const dest = process.env.PAYMENT_BASE_URL + '/account'
+    await axios.post(dest, { id: userID})
+}
 
 module.exports = {
 
@@ -27,6 +33,7 @@ module.exports = {
                     name: name
                 })
                 await user.save()
+                await createPaymentAccount(user._id)
                 res.status(statusCode.CREATED).json({
                     success: true,
                     message: 'User created successfully.'
