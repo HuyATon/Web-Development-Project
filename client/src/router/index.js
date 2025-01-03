@@ -9,6 +9,7 @@ import CategoryManagementView from '../views/CategoryManagementView.vue'
 import ProductManagementView from '../views/ProductManagementView.vue'
 import CartView from '../views/CartView.vue'
 import CheckoutView from '../views/CheckoutView.vue'
+import StatisticView from '../views/StatisticsView.vue'
 import ShopView from '../views/ShopView.vue'
 
 const routes = [
@@ -51,6 +52,12 @@ const routes = [
     path: '/admin/product',
     name: 'ProductManagement',
     component: ProductManagementView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/admin/statistic',
+    name: 'Statistic',
+    component: StatisticView,
     meta: { requiresAuth: true }
   },
   {

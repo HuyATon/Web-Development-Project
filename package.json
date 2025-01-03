@@ -10,5 +10,9 @@
     "start": "concurrently \"npm run start:client\" \"npm run start:server\""
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "chart.js": "^4.4.7",
+    "vue3-datepicker": "^0.4.0"
+  }
 }
