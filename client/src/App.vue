@@ -9,7 +9,8 @@
     <router-link to="/admin/product"> Product Management (Admin) </router-link> |
     <router-link to="/admin/statistic"> Statistics (Admin) </router-link> |
     <router-link to='/cart'> Cart </router-link> |
-    <router-link to='/checkout'> Checkout </router-link>
+    <router-link to='/checkout'> Checkout </router-link> |
+    <router-link to='/shop'> Shop </router-link>
   </nav>
   <router-view/>
 </template>
@@ -42,5 +43,9 @@ nav a.router-link-exact-active {
 
 .bg-tint {
   background-color: rgb(248, 242, 234);
+}
+
+.bg-tint-dark {
+  background-color: rgb(172, 148, 58)
 }
 </style>

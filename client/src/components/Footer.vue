@@ -43,9 +43,7 @@
 
 
         </div>
-        <hr>
-
-        <div class="row">
+        <div class="row my-3">
             <div class="col">
                 <h5 class="fw-bolder">Furino.</h5>
                 <p class="mt-5">University of Science, HCMC</p>
