@@ -1,6 +1,8 @@
 <template>
     <div>
-
+        <div id="toast-container" class="position-relative" ref="toastContainer">
+            <Toast v-if="toastMsg.length > 0" :message="toastMsg" :success="toastSuccess" />
+        </div>
         <div class="row px-5 gx-4 my-4">
             <div class="col-md-8">
                 <table class="table">
@@ -15,93 +17,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="align-middle">1</td>
+                        <tr v-for="(entry, index) in cart.entries" :key="entry.product._id">
+                            <td class="align-middle"> {{ index + 1 }}</td>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <img class="mini-product-img rounded me-3" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
-                                    <p>Asgaard Sofa</p>
+                                    <img class="mini-product-img rounded me-3 border" :src="entry.product.image_path" alt="">
+                                    <p> {{ entry.product.name }}</p>
                                 </div>
                             </td>
-                            <td class="align-middle">$250</td>
+                            <td class="align-middle"> ${{ entry.product.price }}</td>
                             <td class="align-middle">  
-                                <input type="number" class="rounded bg-light" style="width: 3rem" min="1" value="1">
+                                <input type="number" class="rounded bg-light" style="width: 3rem" min="0" :value="entry.quantity" @change="handleQuantityUpdate($event, entry.product)">
                             </td>
-                            <td class="align-middle">$250</td>
+                            <td class="align-middle"> ${{ entry.product.price * entry.quantity }}</td>
                             <td class="align-middle">
-                                <button class="btn btn-light"> <i class="bi bi-trash3-fill"></i> </button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td class="align-middle">1</td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img class="mini-product-img rounded me-3" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
-                                    <p>Asgaard Sofa</p>
-                                </div>
-                            </td>
-                            <td class="align-middle">$250</td>
-                            <td class="align-middle">  
-                                <input type="number" class="rounded bg-light" style="width: 3rem" min="1" value="1">
-                            </td>
-                            <td class="align-middle">$250</td>
-                            <td class="align-middle">
-                                <button class="btn btn-light"> <i class="bi bi-trash3-fill"></i> </button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td class="align-middle">1</td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img class="mini-product-img rounded me-3" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
-                                    <p>Asgaard Sofa</p>
-                                </div>
-                            </td>
-                            <td class="align-middle">$250</td>
-                            <td class="align-middle">  
-                                <input type="number" class="rounded bg-light" style="width: 3rem" min="1" value="1">
-                            </td>
-                            <td class="align-middle">$250</td>
-                            <td class="align-middle">
-                                <button class="btn btn-light"> <i class="bi bi-trash3-fill"></i> </button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td class="align-middle">1</td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img class="mini-product-img rounded me-3" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
-                                    <p>Asgaard Sofa</p>
-                                </div>
-                            </td>
-                            <td class="align-middle">$250</td>
-                            <td class="align-middle">  
-                                <input type="number" class="rounded bg-light" style="width: 3rem" min="1" value="1">
-                            </td>
-                            <td class="align-middle">$250</td>
-                            <td class="align-middle">
-                                <button class="btn btn-light"> <i class="bi bi-trash3-fill"></i> </button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td class="align-middle">1</td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img class="mini-product-img rounded me-3" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
-                                    <p>Asgaard Sofa</p>
-                                </div>
-                            </td>
-                            <td class="align-middle">$250</td>
-                            <td class="align-middle">  
-                                <input type="number" class="rounded bg-light" style="width: 3rem" min="1" value="1">
-                            </td>
-                            <td class="align-middle">$250</td>
-                            <td class="align-middle">
-                                <button class="btn btn-light"> <i class="bi bi-trash3-fill"></i> </button>
+                                <button class="btn btn-light" @click="removeFromCart(entry.product)"> <i class="bi bi-trash3-fill"></i> </button>
                             </td>
                         </tr>
 
@@ -120,29 +50,61 @@
                                 <h6>Total</h6>
                             </div>
                             <div class="col">
-                                <h5 class="text-tint fw-bold ">$500</h5>
+                                <h5 class="text-tint fw-bold ">${{ total }}</h5>
                             </div>
                         </div>
                     
                     <div class="text-center">
-                        <button class="btn py-2 px-5 mb-3 rounded bg-white border-black">Checkout</button>
+                        <a class="btn py-2 px-5 mb-3 rounded bg-white border-black" href="/checkout">Checkout</a>
                     </div>
                     </div>
                 </div>
             </div>
         </div>
-
         <Footer/>
     </div>
 </template>
 
 <script>
 import Footer from '@/components/Footer.vue'
+import Toast from '@/components/Toast.vue'
 
 export default {
     name: 'CartView',
     components: {
-        Footer
+        Footer,
+        Toast
+    },
+    data: () => ({
+        toastMsg: '',
+        toastSuccess: null
+    }),
+    computed: {
+        cart() {
+            return this.$store.getters.cart
+        },
+        total() {
+            return this.$store.getters.cartTotal
+        }
+    },
+    methods: {
+        removeFromCart(product) {
+            this.$store.dispatch('updateCart', { product: product, quantity: 0 })
+            this.showMessage(true, `${product.name} removed from cart`)
+        },
+        showMessage(success, message) {
+
+            this.toastMsg = message
+            this.toastSuccess = success
+        },
+        handleQuantityUpdate(event, product) {
+            const quantity = parseInt(event.target.value)
+            this.$store.dispatch('updateCart', { product, quantity })
+        }
+    },
+    async mounted() {
+        // set up cart
+        await this.$store.dispatch('loadCart')
     }
 }
 </script>

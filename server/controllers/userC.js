@@ -26,7 +26,6 @@ module.exports = {
                     email: email,
                     name: name
                 })
-                console.log('foo')
                 await user.save()
                 res.status(statusCode.CREATED).json({
                     success: true,
@@ -77,6 +76,16 @@ module.exports = {
             res.status(statusCode.OK).json({
                 success: true,
                 message: 'User logged out successfully.'
+            })
+        }
+        catch (err) { next(err) }
+    },
+    getMe: async (req, res, next) => {
+        try {
+            const user = await User.findById(req.user._id)
+            res.json({
+                success: true,
+                user: user
             })
         }
         catch (err) { next(err) }

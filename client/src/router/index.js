@@ -61,7 +61,8 @@ const routes = [
   {
     path: '/checkout',
     name: 'Checkout',
-    component: CheckoutView
+    component: CheckoutView,
+    meta: { requiresAuth: true }
   },
   {
     path: '/shop',
