@@ -43,7 +43,10 @@
               <div class="card-body">
                 <h6 class="fw-bold"> {{ product.name }}</h6>
                 <p class="card-text"> {{ product.category }} </p>
-                <h6 class="fw-bolder"> ${{ product.price }}</h6>
+                <div class="d-flex justify-content-between align-items-center">
+                            <h6 class="fw-bolder"> ${{ product.price }}</h6>
+                            <button class="btn border-black" @click="addToCart(product)">Add to Cart</button>
+                        </div>
               </div>
             </div>
           </div>
@@ -212,6 +215,9 @@ export default {
     nextSlide() {
       this.currentSlide = (this.currentSlide + 1) % this.slides.length;
     },
+    addToCart(product) {
+            this.$store.dispatch('addToCart', product)
+        }
   },
   mounted() {
     this.loadProducts();
@@ -271,6 +277,10 @@ export default {
 .current-active {
   color: white !important;
   background-color: rgb(172, 148, 58);
+}
+button.btn.border-black:hover {
+    background-color: #b5835a;
+    color: white;
 }
 
 /* Inspiration */

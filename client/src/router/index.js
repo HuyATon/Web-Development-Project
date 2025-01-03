@@ -11,6 +11,7 @@ import CartView from '../views/CartView.vue'
 import CheckoutView from '../views/CheckoutView.vue'
 import StatisticView from '../views/StatisticsView.vue'
 import ShopView from '../views/ShopView.vue'
+import SearchView from '../views/SearchView.vue'
 
 const routes = [
   {
@@ -75,6 +76,11 @@ const routes = [
     path: '/shop',
     name: 'Shop',
     component: ShopView
+  },
+  {
+    path: '/search',
+    name: 'Search',
+    component: SearchView
   }
 ]
 

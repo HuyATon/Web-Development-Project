@@ -10,7 +10,9 @@
     <router-link to="/admin/statistic"> Statistics (Admin) </router-link> |
     <router-link to='/cart'> Cart </router-link> |
     <router-link to='/checkout'> Checkout </router-link> |
-    <router-link to='/shop'> Shop </router-link>
+    <router-link to='/shop'> Shop </router-link> |
+    <router-link to='/search'> Search </router-link> |
+
   </nav>
   <router-view/>
 </template>
