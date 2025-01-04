@@ -12,7 +12,8 @@ import CheckoutView from '../views/CheckoutView.vue'
 import StatisticView from '../views/StatisticsView.vue'
 import ShopView from '../views/ShopView.vue'
 import SearchView from '../views/SearchView.vue'
-import OrderManagementView from '../views/OrderManagementView.vue'
+import MyOrdersView from '../views/MyOrdersView.vue'
+import OrdersManagementView from '../views/OrdersManagementView.vue'
 
 const routes = [
   {
@@ -86,8 +87,13 @@ const routes = [
   },
   {
     path: '/order',
-    name: 'Order',
-    component: OrderManagementView,
+    name: 'MyOrders',
+    component: MyOrdersView,
+  },
+  {
+    path: '/admin/order',
+    name: 'OrdersManagement',
+    component: OrdersManagementView,
   }
 ]
 
