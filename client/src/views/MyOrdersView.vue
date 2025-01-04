@@ -9,8 +9,17 @@
       </div>
     </div>
 
-    <div class="p-4">
-    <h1 class="mb-4">Order Management</h1>
+
+
+    <div class="p-4 mt-2">
+      <div class="mb-4 d-flex justify-content-end">
+        <div class="d-flex align-items-center mx-3">
+          <input v-model="searchTerm" type="text" class="form-control" placeholder="Search..." >
+          <button class="ms-2 btn btn-dark" @click="onSearch">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </div>
     <!-- sort -->
     <!-- <div class="d-flex justify-content-end mb-3">
         <select v-model="sortOption" class="form-select w-25" @change="fetchOrders">
@@ -27,20 +36,20 @@
             <th>#</th>
             <th>Order Date</th>
             <th>Total Price</th>
-            <th>Status</th>
             <th>Items</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(order, index) in orders" :key="order._id">
-            <td>{{ index + 1 }}</td>
+            <td>{{ index + 1 + offset }}</td>
             
             <td>{{ new Date(order.order_date).toLocaleDateString() }}</td>
             <td>${{ order.total_price.toFixed(2) }}</td>
             <td>
               <ul>
                 <li v-for="item in order.items" :key="item.product._id">
-                  {{ item.product.name }} - {{ item.quantity }} x ${{ item.unit_price }}
+                  {{ item.product.name }} <br> {{ item.quantity }} x ${{ item.unit_price }}
                 </li>
               </ul>
             </td>
@@ -70,6 +79,10 @@
         </nav>
       </div>
   </div>
+  <!-- test order -->
+  <!-- <div class="d-flex justify-content-center">
+    <button class="btn border-black" @click="createOrder">Create Order</button>
+  </div> -->
   <div>
     <Footer />
   </div>
@@ -83,7 +96,7 @@
 
   
   export default {
-    name: 'OrderManagementView',
+    name: 'MyOrders',
     components: {
       Footer
     },
@@ -91,38 +104,36 @@
       return {
         
         orders: [],
+        searchTerm: '',
         totalOrders: 0,
         limit: 10,
         currentPage: 1,
-        sortOption: 'order_date_desc',
+        offset: 0,
+        //sortOption: 'order_date_desc',
         
       }
     },
     computed: {
 
     totalPages() {
-      return Math.ceil(this.totalOrders / this.limit)
+      return Math.ceil(this.totalOrders / this.limit)||1;
     }
   },
     methods: {
       async fetchOrders() {
       try {
-        // const response = await axios.get('/orders', {
-        //   params: {
-        //     limit: this.limit,
-        //     offset: (this.currentPage - 1) * this.limit,
-        //     sort: this.sortOption
-        //   }
-        // })
-        const response = await axios.get('/orders/user' + this.$store.getters.user._id , {
+        
+        const response = await axios.get('/orders/user/' + this.$store.getters.user._id , {
           params: {
             limit: this.limit,
             offset: (this.currentPage - 1) * this.limit,
-            sort: this.sortOption
+            name: this.searchTerm,
+            
           }
         })
         this.orders = response.data.data
-        this.totalOrders = response.data.pagination.total
+        
+        this.totalOrders = response.data.total ||0
       } catch (err) {
         console.error('Error fetching orders:', err)
       }
@@ -130,13 +141,43 @@
     changePage(page) {
       if (page >= 1 && page <= this.totalPages) {
         this.currentPage = page
+        this.offset = (this.currentPage - 1) * this.limit
+
         this.fetchOrders()
       }
     },
-    
+    onSearch() {
+      this.fetchOrders()
+      this.searchTerm = ''
+      this.currentPage = 1
+    },
+
+    // add order example
+    // async createOrder() {
+    //     try {
+    //       await axios.post('/orders', {
+    //         "customer_id": "6778032cd400d0cd252d12cc",
+    //         "items": [
+    //             {
+    //                 "product": "676c14236a96204a8af53bcd",
+    //                 "quantity": 2,
+    //                 "unit_price": 50
+    //             }
+    //         ],
+    //         "payment_status": "pending",
+    //         "order_date": "2023-10-10T00:00:00Z"
+    //     })
+    //       this.fetchOrders()
+    //     } catch (err) {
+    //       console.error('Error creating order:', err)
+    //     }
+    //   },
+
+
     },
     mounted() {
       this.fetchOrders()
+      console.log('userid: ',this.$store.getters.user._id)
     }
   }
   </script>

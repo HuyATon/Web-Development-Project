@@ -130,7 +130,6 @@ export default {
                         name: this.searchTerm
                     }
                 })
-
                 const data = response.data.data
                 this.products = data.products
                 this.total = data.total
