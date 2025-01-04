@@ -20,6 +20,10 @@ export default {
       type: String,
       default: "Chart",
     },
+    chartType: {
+      type: String,
+      default: "income", 
+    },
   },
   setup(props) {
     const lineChartCanvas = ref(null);
@@ -32,19 +36,19 @@ export default {
         return;
       }
 
-
       if (chartInstance) {
         chartInstance.destroy();
       }
 
- 
+      const label = props.chartType === "income" ? "Total Income" : "Number of Orders";
+
       chartInstance = new Chart(ctx, {
         type: "line",
         data: {
           labels: Array.isArray(props.chartData.labels) ? props.chartData.labels : [],
           datasets: [
             {
-              label: props.chartTitle,
+              label: label, 
               data: Array.isArray(props.chartData.data) ? props.chartData.data : [],
               borderColor: "#007bff",
               backgroundColor: "rgba(0, 123, 255, 0.2)",
@@ -70,20 +74,24 @@ export default {
       });
     };
 
-    watch(() => props.chartData, () => {
-      if (chartInstance) {
-        chartInstance.data.labels = Array.isArray(props.chartData.labels) ? props.chartData.labels : [];
-        chartInstance.data.datasets[0].data = Array.isArray(props.chartData.data) ? props.chartData.data : [];
-        chartInstance.update();
-      }
-    });
+    watch(
+      () => [props.chartData, props.chartType], 
+      () => {
+        if (chartInstance) {
+          chartInstance.data.labels = Array.isArray(props.chartData.labels) ? props.chartData.labels : [];
+          chartInstance.data.datasets[0].data = Array.isArray(props.chartData.data) ? props.chartData.data : [];
 
-    
+          chartInstance.data.datasets[0].label = props.chartType === "income" ? "Total Income" : "Number of Orders";
+
+          chartInstance.update();
+        }
+      }
+    );
+
     onMounted(() => {
       createChart();
     });
 
-   
     onBeforeUnmount(() => {
       if (chartInstance) {
         chartInstance.destroy();
@@ -99,8 +107,8 @@ export default {
 
 <style scoped>
 .line-chart-canvas {
-  width: 100% !important; 
+  width: 100% !important;
   height: 300px !important;
-  max-width: 800px; 
+  max-width: 800px;
 }
 </style>

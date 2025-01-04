@@ -303,6 +303,7 @@ export default {
                 stock: null,
                 image_path: null,
             },
+            selectedImageFile: null,
             previewImage: null,
             searchTerm: "",
             limit: 10,
@@ -365,19 +366,19 @@ export default {
         },
 
         openCreateModal() {
-        this.newProduct = {
-            name: "",
-            category: "",
-            description: "",
-            price: null,
-            discount_price: null,
-            weight: "",
-            stock: null,
-            image_path: null,
-        };
-        this.previewImage = null; 
-        $('#create-modal').modal('show'); 
-    },
+            this.newProduct = {
+                name: "",
+                category: "",
+                description: "",
+                price: null,
+                discount_price: null,
+                weight: "",
+                stock: null,
+                image_path: null,
+            };
+            this.previewImage = null;
+            $('#create-modal').modal('show');
+        },
 
         async fetchCategories() {
             try {
@@ -404,62 +405,93 @@ export default {
         },
 
 
-        async handleImageUpload(event) {
+        handleImageUpload(event) {
             const file = event.target.files[0];
             if (file) {
+                this.selectedImageFile = file; 
+
                 const reader = new FileReader();
-
                 reader.onload = (e) => {
-                    this.previewImage = e.target.result;
+                    this.previewImage = e.target.result; 
                 };
-
                 reader.readAsDataURL(file);
+            }
+        },
 
-                const formData = new FormData();
-                formData.append('image', file);
 
-                try {
+
+
+        async handleCreateProduct() {
+            try {
+                this.clearMessage();
+
+                if (!this.newProduct.name || !this.newProduct.category || !this.newProduct.price || !this.newProduct.stock) {
+                    this.showMessage(false, 'All required fields are required (name, category, price, stock).');
+                    return;
+                }
+
+               
+                if (this.selectedImageFile) {
+                    const formData = new FormData();
+                    formData.append('image', this.selectedImageFile);
                     const response = await axios.post('/upload-image', formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                        },
+                        headers: { 'Content-Type': 'multipart/form-data' },
                     });
 
                     if (response.data.success) {
-                      
-                        if (this.editedProduct._id) {
-                            this.editedProduct.image_path = response.data.imageUrl;
-                        } else {
-                            this.newProduct.image_path = response.data.imageUrl;
-                        }
-                        this.editedProduct.image_path = response.data.imageUrl;
                         this.newProduct.image_path = response.data.imageUrl;
-                        this.showMessage(true, 'Image uploaded successfully.');
                     } else {
-                        this.showMessage(false, 'Image upload failed.');
+                        this.showMessage(false, 'Failed to upload image.');
+                        return;
                     }
-                } catch (error) {
-                    this.showMessage(false, 'Error uploading image.');
                 }
+
+              
+                const response = await axios.post('/products', this.newProduct);
+                if (response.data.success) {
+                    this.showMessage(true, 'Product created successfully.');
+                    this.fetchProducts();
+                    this.hideModal();
+                } else {
+                    this.showMessage(false, 'Failed to create product.');
+                }
+            } catch (error) {
+                this.showMessage(false, `Error creating product: ${error.message}`);
             }
         },
-
-
 
         async handleEditProduct() {
             try {
+            
+                if (this.selectedImageFile) {
+                    const formData = new FormData();
+                    formData.append('image', this.selectedImageFile);
+                    const response = await axios.post('/upload-image', formData, {
+                        headers: { 'Content-Type': 'multipart/form-data' },
+                    });
+
+                    if (response.data.success) {
+                        this.editedProduct.image_path = response.data.imageUrl;
+                    } else {
+                        this.showMessage(false, 'Failed to upload image.');
+                        return;
+                    }
+                }
+
+                
                 const response = await axios.put(`/products/${this.editedProduct._id}`, this.editedProduct);
                 if (response.data.success) {
-                    this.showMessage(true, "Product updated successfully.");
+                    this.showMessage(true, 'Product updated successfully.');
                     this.fetchProducts();
-                    this.hideModal()
+                    this.hideModal();
                 } else {
-                    this.showMessage(false, "Failed to update product.");
+                    this.showMessage(false, 'Failed to update product.');
                 }
             } catch (error) {
-                this.showMessage(false, "Error updating product.");
+                this.showMessage(false, `Error updating product: ${error.message}`);
             }
         },
+
         // showMessage(success, message) {
         //     this.toastSuccess = success;
         //     this.toastMsg = message;
@@ -498,45 +530,7 @@ export default {
             this.fetchProducts();
         },
 
-        async handleCreateProduct() {
-            try {
 
-                this.clearMessage();
-
-                if (!this.newProduct.name || !this.newProduct.category || !this.newProduct.price || !this.newProduct.image_path || !this.newProduct.stock) {
-                    this.showMessage(false, 'All required fields are required (name, category, price, image, stock).');
-                    this.hideModal();
-                    return;
-                }
-
-                const productData = {
-                    name: this.newProduct.name,
-                    category: this.newProduct.category,
-                    description: this.newProduct.description,
-                    price: this.newProduct.price,
-                    discount_price: this.newProduct.discount_price,
-                    weight: this.newProduct.weight,
-                    stock: this.newProduct.stock,
-                    image_path: this.newProduct.image_path,
-
-                };
-                const response = await axios.post('/products', productData);
-
-                if (response.data.success) {
-                    this.showMessage(true, 'Product created successfully.');
-                    await this.fetchProducts();
-                    this.hideModal()
-                } else {
-                    this.showMessage(false, 'Failed to create product.');
-                }
-            } catch (error) {
-                console.error("Error creating product:", error);
-                this.showMessage(false, `Error creating product: ${error.message}`);
-            }
-
-
-            this.hideModal();
-        },
 
 
         async handleDeleteProduct() {
