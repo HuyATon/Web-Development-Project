@@ -44,6 +44,7 @@ const routes = [
     component: ProfileView,
     meta: { requiresAuth: true } // [NOTE]: mark protected routes
   },
+  
   {
     path: '/admin/category',
     name: 'CategoryManagement',

@@ -279,8 +279,7 @@ module.exports = {
                 : new Date(Date.UTC(Number(year) + 1, 0, 1));
 
 
-            console.log('Start Date:', startDate);
-            console.log('End Date:', endDate);
+    
 
 
             const matchStage = {
@@ -312,10 +311,6 @@ module.exports = {
                 };
 
             const incomeTrends = await Order.aggregate([matchStage, groupStage, { $sort: { "_id.year": 1, "_id.month": 1, "_id.day": 1 } }]);
-
-
-            console.log('Income Trends:', incomeTrends);
-
 
             const daysInMonth = month ? new Date(year, month, 0).getDate() : 31;
             const resultData = Array.from({ length: daysInMonth }, (_, i) => ({ day: i + 1, total_income: 0 }));
