@@ -13,6 +13,7 @@
     <router-link to='/shop'> Shop </router-link> |
     <router-link to='/search'> Search </router-link> |
     <router-link to='/order'> My Orders </router-link> |
+    <router-link to='/admin/order'> Order Management </router-link> |
 
 
 
