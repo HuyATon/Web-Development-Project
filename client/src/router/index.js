@@ -12,6 +12,7 @@ import CheckoutView from '../views/CheckoutView.vue'
 import StatisticView from '../views/StatisticsView.vue'
 import ShopView from '../views/ShopView.vue'
 import SearchView from '../views/SearchView.vue'
+import OrderManagementView from '../views/OrderManagementView.vue'
 
 const routes = [
   {
@@ -81,6 +82,11 @@ const routes = [
     path: '/search',
     name: 'Search',
     component: SearchView
+  },
+  {
+    path: '/order',
+    name: 'Order',
+    component: OrderManagementView,
   }
 ]
 
