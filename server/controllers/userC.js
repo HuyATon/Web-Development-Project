@@ -96,5 +96,42 @@ module.exports = {
             })
         }
         catch (err) { next(err) }
+    },
+
+    updateUser: async (req, res, next) => {
+        try {
+            const userId = req.user._id;
+            const { name, address, phone } = req.body;
+
+            if (!name && !address && !phone) {
+                const err = new APIError(statusCode.BAD_REQUEST, 'No data to update.');
+                return next(err);
+            }
+
+            const updatedUser = await User.findByIdAndUpdate(
+                userId,
+                {
+                    $set: {
+                        name: name || undefined,
+                        address: address || undefined,
+                        phone: phone || undefined,
+                    }
+                },
+                { new: true }  
+            );
+
+            if (!updatedUser) {
+                const err = new APIError(statusCode.NOT_FOUND, 'User not found.');
+                return next(err);
+            }
+
+            res.status(statusCode.OK).json({
+                success: true,
+                message: 'User details updated successfully.',
+                user: updatedUser,
+            });
+        } catch (err) {
+            next(err);
+        }
     }
 }

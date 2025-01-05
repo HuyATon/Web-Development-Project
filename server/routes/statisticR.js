@@ -8,10 +8,12 @@ const checkBlackList = require('../middlewares/jwtBlackList.js')
 const router = express.Router()
 
 
-router.get('/order-trends', orderC.getOrderTrends);
+router.get('/orders-trends', orderC.getOrderTrends);
 router.get('/income-trends', orderC.getIncomeTrends);
 
 router.get('/overview', orderC.getOverview);
+router.get('/available-years', orderC.getAvailableYears);
+
 
 
 
