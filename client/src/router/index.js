@@ -89,11 +89,13 @@ const routes = [
     path: '/order',
     name: 'MyOrders',
     component: MyOrdersView,
+    meta: { requiresAuth: true }
   },
   {
     path: '/admin/order',
     name: 'OrdersManagement',
     component: OrdersManagementView,
+    meta: { requiresAuth: true }
   }
 ]
 

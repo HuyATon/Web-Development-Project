@@ -90,9 +90,10 @@
 </template>
   
   <script>
-  import Footer from '@/components/Footer.vue'
-  import axios from 'axios'
-  import router from '@/router'
+  import Footer from '@/components/Footer.vue';
+  import axios from 'axios';
+  import router from '@/router';
+  import { jwtDecode } from 'jwt-decode';
 
   
   export default {
@@ -120,24 +121,32 @@
     }
   },
     methods: {
-      async fetchOrders() {
-      try {
-        
-        const response = await axios.get('/orders/user/' + this.$store.getters.user._id , {
-          params: {
-            limit: this.limit,
-            offset: (this.currentPage - 1) * this.limit,
-            name: this.searchTerm,
-            
-          }
-        })
-        this.orders = response.data.data
-        
-        this.totalOrders = response.data.total ||0
-      } catch (err) {
-        console.error('Error fetching orders:', err)
+    
+    async fetchOrders() {
+    try {
+      const token = localStorage.getItem('jwt');
+      if (!token) {
+        throw new Error('No token found');
       }
-    },
+
+      const decoded = jwtDecode(token);
+      const userId = decoded.id;
+      //console.log('userid: ',userId)
+
+      const response = await axios.get('/orders/user/' + userId, {
+        params: {
+          limit: this.limit,
+          offset: this.offset,
+          searchTerm: this.searchTerm,
+        },
+      });
+
+      this.orders = response.data.data;
+      this.totalOrders = response.data.total||0;
+    } catch (err) {
+      console.log(err.message);
+    }
+  },
     changePage(page) {
       if (page >= 1 && page <= this.totalPages) {
         this.currentPage = page
@@ -177,7 +186,6 @@
     },
     mounted() {
       this.fetchOrders()
-      console.log('userid: ',this.$store.getters.user._id)
     }
   }
   </script>
