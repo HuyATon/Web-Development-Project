@@ -41,7 +41,7 @@
 
     <!-- Section 3: Team Section -->
     <div class="container py-5 team-section">
-      <h3 class="text-center fw-bold mb-4">Meet Our Team</h3>
+      <h3 class="text-center fw-bold  mb-4">Meet Our Team</h3>
       <div class="row text-center">
         <!-- Lặp qua danh sách member -->
         <div class="col-md-3" v-for="(member, index) in members" :key="index">
@@ -51,24 +51,15 @@
             class="rounded-circle mb-3"
           />
           <h5 class="fw-bold">{{ member.name }}</h5>
+          <p>{{ member.id }}</p>
           <p>{{ member.profession }}</p>
-          <div>
-            <!-- Lặp qua danh sách mạng xã hội -->
-            <a
-              v-for="(social, sIndex) in member.social"
-              :key="sIndex"
-              :href="social.link"
-              class="text-muted me-2"
-            >
-              <i :class="social.icon"></i>
-            </a>
-          </div>
+         
         </div>
       </div>
     </div>
 
 
-    <div class=" py-5 text-center section-4">
+    <div class=" pb-5 text-center section-4">
       <div class=" text-black p-5 rounded">
         <h3>Now Let's Grow Yours</h3>
         
@@ -95,7 +86,8 @@ export default {
     return {
       members : [
         {
-          name: "mem1",
+          name: "Tôn Anh Huy",
+          id: "21120257",
           profession: "dev",
           image: "https://via.placeholder.com/150",
           social: [
@@ -114,7 +106,8 @@ export default {
           ],
         },
         {
-          name: "mem2",
+          name: "Nguyễn Thái Bình",
+          id:"21120207",
           profession: "dev",
           image: "https://via.placeholder.com/150",
           social: [
@@ -133,7 +126,8 @@ export default {
           ],
         },
         {
-          name: "mem3",
+          name: "Lê Trung Nguyên",
+          id:"20120338",
           profession: "dev",
           image: "https://via.placeholder.com/150",
           social: [
@@ -152,7 +146,8 @@ export default {
           ],
         },
         {
-          name: "mem4",
+          name: "Phạm Võ Hải Đăng",
+          id: "20120263",
           profession: "dev",
           image: "https://via.placeholder.com/150",
           social: [

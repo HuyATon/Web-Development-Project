@@ -1,5 +1,12 @@
 <template>
     <div>
+        <div class=" py-5 hero-search">
+      <div class="row align-items-center justify-content-end">
+        <div class="col-md-6  text-black p-5 hero-content">
+          <h2 class="fw-bold">Search product</h2>
+        </div>
+      </div>
+    </div>
         <div class="row bg-tint my-3 py-3 align-items-center">
             
             <div class="col d-flex align-items-center justify-content-end">
@@ -176,6 +183,18 @@ export default {
 </script>
 
 <style scoped>
+
+.hero-search {
+  background-image: url('../assets/about-bg.jfif');
+  background-size: cover;
+  background-position: center;
+  
+}
+
+.hero-content {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
 .current-active {
     color: white !important;
     background-color: rgb(172, 148, 58);
