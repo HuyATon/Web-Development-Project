@@ -8,11 +8,11 @@ const checkBlackList = require('../middlewares/jwtBlackList.js')
 const router = express.Router()
 
 
-router.get('/orders-trends', orderC.getOrderTrends);
-router.get('/income-trends', orderC.getIncomeTrends);
+router.get('/orders-trends', passport.authenticate('jwt', { session: false }), checkBlackList,  orderC.getOrderTrends);
+router.get('/income-trends',  passport.authenticate('jwt', { session: false }), checkBlackList,  orderC.getIncomeTrends);
 
-router.get('/overview', orderC.getOverview);
-router.get('/available-years', orderC.getAvailableYears);
+router.get('/overview',  passport.authenticate('jwt', { session: false }), checkBlackList,  orderC.getOverview);
+router.get('/available-years',  passport.authenticate('jwt', { session: false }), checkBlackList,  orderC.getAvailableYears);
 
 
 
