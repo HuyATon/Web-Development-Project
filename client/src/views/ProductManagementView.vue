@@ -5,19 +5,60 @@
             <Toast v-if="toastMsg" :message="toastMsg" :success="toastSuccess" />
         </div>
 
-        <div class="d-flex flex-row-reverse my-3">
-            <div class="ms-4">
-                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#create-modal">
-                    + New Product
-                </button>
+        <div class="row bg-tint my-3 py-3 align-items-center">
+            <!-- Filter Column -->
+            <div class="col-md-3 col">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex me-2">
+                        <i class="bi bi-filter me-2"></i>
+                        Filter
+                    </div>
+                    <select class="form-select me-3 w-100" v-model="categoryFilter"
+                        @change="fetchProducts(reloadPage = true)">
+                        <option value="all"> All </option>
+                        <option v-for="category in categoriesFilter" :key="category" :value="category"> {{ category }}
+                        </option>
+                    </select>
+                </div>
             </div>
-            <div class="d-flex align-items-center">
-                <input v-model="searchTerm" type="text" class="form-control" placeholder="Search..." @input="onSearch">
-                <div class="ms-2">
-                    <i class="bi bi-search"></i>
+
+            <!-- Show Per Page Column -->
+            <div class="col-md-2 col">
+                <div class="d-flex align-items-center">
+                    <label for="per-page" class="me-2"> <small> Show </small></label>
+                    <input v-model="limit" type="number" id="per-page" @change="fetchProducts(reloadPage = true)"
+                        class="form-control me-4" style="width: 5rem" min=4>
+                </div>
+            </div>
+
+            <!-- Sort Column -->
+            <div class="col-md-3 col d-flex align-items-center justify-content-start">
+                <div class="me-2"> <small>Sort</small></div>
+                <select v-model="sortOption" class="form-select w-75" aria-label="Default select example"
+                    @change="fetchProducts(resetPage = true)">
+                    <option value="price_desc">Highest Price First </option>
+                    <option value="price_asc">Lowest Price First</option>
+                </select>
+            </div>
+
+            <!-- Search Column -->
+            <div class="col-md-4 col d-flex align-items-center justify-content-end">
+                
+                <div class="d-flex align-items-center ms-2">
+                    <input v-model="searchTerm" type="text" class="form-control" placeholder="Search..." @input="onSearch">
+                    <div class="ms-2">
+                        <i class="bi bi-search"></i>
+                    </div>
+                </div>
+
+                <div class="ms-4">
+                    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#create-modal">
+                        + New Product
+                    </button>
                 </div>
             </div>
         </div>
+
 
         <table class="table table-bordered">
             <thead>
@@ -282,6 +323,9 @@ export default {
         return {
             products: [],
             categories: [],
+            categoryFilter: "all",
+            categoriesFilter: [],
+            sortOption: 'price_asc',
             editedProduct: {
                 name: "",
                 category: "",
@@ -384,6 +428,7 @@ export default {
             try {
                 const response = await axios.get("/categories");
                 this.categories = response.data.categories;
+                this.categoriesFilter = response.data.categories.map(category => category.name[0].toUpperCase() + category.name.slice(1))
             } catch (error) {
                 this.showMessage(false, "Failed to fetch categories.");
             }
@@ -408,11 +453,11 @@ export default {
         handleImageUpload(event) {
             const file = event.target.files[0];
             if (file) {
-                this.selectedImageFile = file; 
+                this.selectedImageFile = file;
 
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    this.previewImage = e.target.result; 
+                    this.previewImage = e.target.result;
                 };
                 reader.readAsDataURL(file);
             }
@@ -430,7 +475,7 @@ export default {
                     return;
                 }
 
-               
+
                 if (this.selectedImageFile) {
                     const formData = new FormData();
                     formData.append('image', this.selectedImageFile);
@@ -446,7 +491,7 @@ export default {
                     }
                 }
 
-              
+
                 const response = await axios.post('/products', this.newProduct);
                 if (response.data.success) {
                     this.showMessage(true, 'Product created successfully.');
@@ -462,7 +507,7 @@ export default {
 
         async handleEditProduct() {
             try {
-            
+
                 if (this.selectedImageFile) {
                     const formData = new FormData();
                     formData.append('image', this.selectedImageFile);
@@ -478,7 +523,7 @@ export default {
                     }
                 }
 
-                
+
                 const response = await axios.put(`/products/${this.editedProduct._id}`, this.editedProduct);
                 if (response.data.success) {
                     this.showMessage(true, 'Product updated successfully.');
@@ -507,11 +552,15 @@ export default {
 
         async fetchProducts() {
             try {
+
+                const categoryFilter = this.categoryFilter.toLowerCase() === 'all' ? "" : this.categoryFilter.toLowerCase();
                 const response = await axios.get("/products", {
                     params: {
                         limit: this.limit,
                         offset: this.offset,
                         name: this.searchTerm,
+                        category: categoryFilter,
+                        sort: this.sortOption
                     },
                 });
                 if (response.data.success) {
@@ -548,7 +597,17 @@ export default {
             }
         }
     },
+
+    async loadCategories() {
+        try {
+            const response = await axios.get('/categories')
+            const data = response.data
+            this.categoriesFilter = data.categories.map(category => category.name[0].toUpperCase() + category.name.slice(1))
+        }
+        catch (err) { alert(err.message) }
+    },
     mounted() {
+        //this.loadCategories();
         this.fetchCategories();
         this.fetchProducts();
     },
@@ -573,5 +632,4 @@ export default {
 .pagination .page-link:hover {
     background-color: rgb(248, 242, 234);
     color: #000;
-}
-</style>
+}</style>

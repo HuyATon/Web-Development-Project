@@ -6,7 +6,7 @@ const upload = multer({ dest: 'uploads/' });
 
 const router = express.Router();
 
-router.post('/', upload.single('image'), async (req, res) => {
+router.post('/',  upload.single('image'), async (req, res) => {
     try {
        
       console.log('File received:', req.file); 
