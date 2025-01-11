@@ -5,7 +5,7 @@
       <div class="row align-items-center justify-content-end">
         <div class="col-md-6  text-black p-5 hero-content">
           <h2 class="fw-bold">ABOUT US</h2>
-          <p class="mb-4 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <p class="mb-4 text-muted">We are a team of passionate developers dedicated to creating high-quality web applications.</p>
 
           
         </div>
@@ -43,10 +43,9 @@
     <div class="container py-5 team-section">
       <h3 class="text-center fw-bold  mb-4">Meet Our Team</h3>
       <div class="row text-center">
-        <!-- Lặp qua danh sách member -->
         <div class="col-md-3" v-for="(member, index) in members" :key="index">
           <img
-            :src="member.image"
+            :src= "member.image"
             :alt="member.name"
             class="rounded-circle mb-3"
           />
@@ -59,15 +58,7 @@
     </div>
 
 
-    <div class=" pb-5 text-center section-4">
-      <div class=" text-black p-5 rounded">
-        <h3>Now Let's Grow Yours</h3>
-        
-          <p class="mb-4 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        
-        <button class="btn btn-light" @click="navigateToLogin">Join with us</button>
-      </div>
-    </div>
+    
     <Footer/>
   </div>
 
@@ -89,89 +80,44 @@ export default {
           name: "Tôn Anh Huy",
           id: "21120257",
           profession: "dev",
-          image: "https://via.placeholder.com/150",
-          social: [
-            {
-              icon: "fab fa-facebook",
-              link: "#",
-            },
-            {
-              icon: "fab fa-instagram",
-              link: "#",
-            },
-            {
-              icon: "fab fa-twitter",
-              link: "#",
-            },
-          ],
+          image: "https://as2.ftcdn.net/jpg/04/44/98/93/1000_F_444989310_QKWOolCJIta0tP7fZ3PkgVyP5L79UhwY.jpg",
+          
         },
         {
           name: "Nguyễn Thái Bình",
           id:"21120207",
           profession: "dev",
-          image: "https://via.placeholder.com/150",
-          social: [
-            {
-              icon: "fab fa-facebook",
-              link: "#",
-            },
-            {
-              icon: "fab fa-instagram",
-              link: "#",
-            },
-            {
-              icon: "fab fa-twitter",
-              link: "#",
-            },
-          ],
+          image: "https://as2.ftcdn.net/jpg/04/44/98/93/1000_F_444989310_QKWOolCJIta0tP7fZ3PkgVyP5L79UhwY.jpg",
+          
         },
         {
           name: "Lê Trung Nguyên",
           id:"20120338",
           profession: "dev",
-          image: "https://via.placeholder.com/150",
-          social: [
-            {
-              icon: "fab fa-facebook",
-              link: "#",
-            },
-            {
-              icon: "fab fa-instagram",
-              link: "#",
-            },
-            {
-              icon: "fab fa-twitter",
-              link: "#",
-            },
-          ],
+          image: "https://as2.ftcdn.net/jpg/04/44/98/93/1000_F_444989310_QKWOolCJIta0tP7fZ3PkgVyP5L79UhwY.jpg",
+          
         },
         {
           name: "Phạm Võ Hải Đăng",
           id: "20120263",
           profession: "dev",
-          image: "https://via.placeholder.com/150",
-          social: [
-            {
-              icon: "fab fa-facebook",
-              link: "#",
-            },
-            {
-              icon: "fab fa-instagram",
-              link: "#",
-            },
-            {
-              icon: "fab fa-twitter",
-              link: "#",
-            },
-          ],
+          image: "https://as2.ftcdn.net/jpg/04/44/98/93/1000_F_444989310_QKWOolCJIta0tP7fZ3PkgVyP5L79UhwY.jpg",
+          
         },
       ],
-      methods: {
-        navigateToLogin() {
-          router.push({ name: 'LoginView'})
-        },
-      },
     };
+  },
+  computed: {
+    isAuthenticated() {
+      const token = localStorage.getItem('jwt');
+      if (!token) return false;
+      return true;
+    },
+  },
+  methods: {
+    navigateToLogin() {
+      router.push({ name: 'Login'})
+    },
   },
 };
 </script>
@@ -207,6 +153,12 @@ button {
 
 .section-6 {
   background-color: #FAF3EA;
+}
+
+img {
+  width: 150px;
+  height: auto;
+  border-radius: 50%;
 }
 
 </style>

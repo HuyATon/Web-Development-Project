@@ -6,14 +6,16 @@
       <div class="hero-content  p-4 rounded-3 me-4"> 
         <p class="text-muted">New Arrival</p>
         <h1 class="fw-bold ">Discover Our New Collection</h1>
-        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <button>Buy Now</button>
+        <p class="text-muted">Explore our latest collection of furniture designed to bring comfort and style to your home.</p>
+        
+        <router-link to="/shop" class=""><button>Buy Now</button></router-link>
+
       </div>
     </section>
 
     <section class="browse-range py-4 text-center">
       <h2 class="fs-4 mb-2 fw-bold">Browse The Range</h2>
-      <p class="mb-4 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <p class="mb-4 text-muted">Find the perfect pieces to complement your space from our wide range of furniture.</p>
       <div class="categories d-flex justify-content-around">
         <div class="category  p-3 rounded-3 text-center" style="width: 30%;">
           <img src="../assets/home-dining.png" alt="Dining" class="img-fluid rounded-3 mb-3" style="height: 480px; object-fit: cover;">
@@ -32,7 +34,7 @@
 
     <section class="products py-4 text-center" id="products">
       <h2 class="fs-4 mb-2 fw-bold">Our Products</h2>
-      <p class="mb-4 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <p class="mb-4 text-muted">Discover a variety of products that suit your taste and needs.</p>
 
       <div class="product-list d-flex flex-wrap justify-content-around">
         <!-- Products -->
@@ -57,19 +59,7 @@
           </div>
         </div>
 
-        <div class="d-flex justify-content-center">
-          <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item text-black" @click="handleNavigate" :class="{ disabled: currentPage == 1 }"><span
-                  class="page-link text-black bg-tint"><span aria-hidden="true">&laquo;</span></span></li>
-              <li v-for="page in pageNumb" :key="page" class="page-item text-black" @click="handleNavigate"><span
-                  class="page-link text-black bg-tint" :class="{ 'current-active': currentPage == page }"> {{ page }}
-                </span></li>
-              <li class="page-item text-black" @click="handleNavigate" :class="{ disabled: currentPage == pageNumb }">
-                <span class="page-link text-black bg-tint"><span aria-hidden="true">&raquo;</span></span></li>
-            </ul>
-          </nav>
-        </div>
+        <router-link to="/shop" class="btn btn-seemore ">See More</router-link>
       </div>
     </section>
 
@@ -103,7 +93,7 @@
     <section class="share-setup text-center py-4">
       <h2 class="fs-4 m-2 fw-bold ">Share your setup with </h2>
       <h1 class="fw-bold ">#FuniroFurniture</h1>
-      <p class="mb-4 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <p class="mb-4 text-muted">Share your setup with us using the hashtag #FuniroFurniture.</p>
 
       <div class="setup-gallery d-flex justify-content-center flex-wrap gap-2">
         <img src="../assets/setup1.png" alt="Setup 1">
@@ -431,6 +421,21 @@ button.btn.border-black:hover {
   border-radius: 8px;
   object-fit: cover;
 }
+
+/* */
+.btn-seemore {
+  background-color: #d4a373;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-seemore:hover {
+  background-color: #b5835a;
+}
+
 
 @media (max-width: 768px) {
   .setup-gallery img {
