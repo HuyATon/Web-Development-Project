@@ -51,10 +51,10 @@
             <div class="col">
                 <h6 class="text-secondary">Links</h6>
                 <ul class="list-unstyled mt-5">
-                    <li class="mb-4"><a class="text-decoration-none fw-semibold text-dark" href="#">Home</a></li>
-                    <li class="mb-4"><a class="text-decoration-none fw-semibold text-dark" href="#">Shop</a></li>
-                    <li class="mb-4"><a class="text-decoration-none fw-semibold text-dark" href="#">About</a></li>
-                    <li class="mb-4"><a class="text-decoration-none fw-semibold text-dark" href="#">Contact</a></li>
+                    <li class="mb-4"><a class="text-decoration-none fw-semibold text-dark" href="/">Home</a></li>
+                    <li class="mb-4"><a class="text-decoration-none fw-semibold text-dark" href="/shop">Shop</a></li>
+                    <li class="mb-4"><a class="text-decoration-none fw-semibold text-dark" href="/about">About</a></li>
+                    <!-- <li class="mb-4"><a class="text-decoration-none fw-semibold text-dark" href="#">Contact</a></li> -->
                 </ul>
             </div>
             <div class="col">
