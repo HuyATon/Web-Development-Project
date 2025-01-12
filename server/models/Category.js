@@ -13,4 +13,8 @@ const schema = new mongoose.Schema({
     ]
 })
 
+schema.methods.getProducts = async function () {
+    return await Product.find({ category: this.name });
+};
+
 module.exports = mongoose.model('Category', schema)

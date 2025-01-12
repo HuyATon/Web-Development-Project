@@ -31,7 +31,7 @@
             <tr v-for="(category, index) in filterCategories" :key="category._id">
             <th scope="row">{{ index + 1 }}</th>
             <td>{{ category.name }}</td>
-            <td>{{ category.products.length }}</td>
+            <td>{{ category.productCount}}</td>
             <td>
                 <div class="btn-group">
                     <button class="btn btn-light border btn-sm rounded" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
