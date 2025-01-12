@@ -4,7 +4,6 @@ module.exports = {
     handlePayment: async (req, res) => {
         try {
             const userID = req.user.id
-
             const amount = req.body.amount 
             const account = await PaymentAccount.findOne({ user: userID })
             if (!account) {

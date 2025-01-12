@@ -44,14 +44,12 @@
             <hr>
 
             <div>
-                <input type="radio" id="bank" name="paymentMethod" value="bank" class="me-3 mb-3">
+                <input type="radio" id="bank" name="paymentMethod" value="bank" class="me-3 mb-3" checked>
                 <label for="bank">Bank Transfer</label><br>
-                <input type="radio" id="cod" name="paymentMethod" value="cod" class="me-3 mb-3">
-                <label for="cod">Cash On Delivery</label><br>
             </div>
 
             <div class="text-center">
-                <button class="btn border-black px-5 py-2 mt-3">Place Order</button>
+                <button class="btn border-black px-5 py-2 mt-3" @click=handleOrder>Place Order</button>
             </div>
 
 
@@ -64,6 +62,7 @@
 
 <script>
 import Footer from '@/components/Footer.vue'
+import axios from 'axios'
 
 export default {
     name: 'Checkout',
@@ -72,6 +71,7 @@ export default {
     },
     data() {
         return {
+            user: null,
             name: '',
             address: '',
             phone: '',
@@ -85,23 +85,46 @@ export default {
         total() {
             return this.$store.getters.cartTotal
         },
-        user() {
-            return this.$store.getters.user
-        }
     },
-    watch: {
-        user: {
-            immediate: true,
-            handler(newUser) {
-                this.name = newUser.name || ''
-                this.address = newUser.address || ''
-                this.phone = newUser.phone || ''
-                this.email = newUser.email || ''
+    methods: {
+        async loadUser() {
+            try {
+                const response = await axios.get('/users/me')
+                const user = response.data.user
+                this.user = user
+                this.name = user.name
+                this.address = user.address
+                this.phone = user.phone
+                this.email = user.email
+                console.log(user)
+            } catch (error) {
+                console.error(error)
+            }
+        },
+        async handleOrder() {
+            try {
+                const items = this.cart.entries.map(entry => {
+                    return {
+                        product: entry.product._id,
+                        quantity: entry.quantity,
+                        unit_price: entry.product.price
+                    }
+                })
+                const response = await axios.post('/orders', {
+                    customer_id: this.user._id,
+                    items: items, 
+                    payment_status: 'pending',
+                    order_date: new Date()
+                })
+                alert(response.data.message)
+            } catch (error) {
+                alert(error)
             }
         }
     },
-    mounted() {
+    async mounted() {
         this.$store.dispatch('loadCart')
+        await this.loadUser()
     }
 }
 </script>

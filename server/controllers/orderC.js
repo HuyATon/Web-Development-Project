@@ -3,6 +3,22 @@ const APIError = require('../errors/API.js');
 const statusCode = require('../constants/statusCode.js');
 const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
+const axios = require('axios')
+const https = require('https')
+
+axios.defaults.httpsAgent = new https.Agent({ rejectUnauthorized: false })
+
+async function handlePayment(req, calculatedTotalPrice) {
+    const paymentUrl = process.env.PAYMENT_BASE_URL  + "/payment"
+    const paymentRes = await axios.post(paymentUrl, {
+        amount: calculatedTotalPrice
+    }, {
+        headers: {
+            Authorization: req.headers['authorization']
+        }
+    })
+    return paymentRes
+}
 
 module.exports = {
     getById: async (req, res, next) => {
@@ -89,11 +105,9 @@ module.exports = {
         try {
             const { customer_id, items, payment_status, order_date } = req.body;
 
-
             if (!items || items.length === 0) {
                 throw new APIError(statusCode.BAD_REQUEST, 'Order must contain items');
             }
-
 
             let calculatedTotalPrice = 0;
             items.forEach(item => {
@@ -101,26 +115,39 @@ module.exports = {
                     calculatedTotalPrice += item.quantity * item.unit_price;
                 }
             });
-
-
-            const order = new Order({
-                id: uuidv4(),
-                customer_id: new mongoose.Types.ObjectId(customer_id),
-                items,
-                total_price: calculatedTotalPrice,
-                payment_status,
-                order_date
-            });
-
-
-            await order.save();
-
-
-            res.status(statusCode.CREATED).json({
-                success: true,
-                message: 'Order created successfully',
-                data: order,
-            });
+            const paymentRes = await handlePayment(req, calculatedTotalPrice)
+            if (paymentRes.data.success) {
+                const order = new Order({
+                    id: uuidv4(),
+                    customer_id: new mongoose.Types.ObjectId(customer_id),
+                    items,
+                    total_price: calculatedTotalPrice,
+                    payment_status: 'completed',
+                    order_date
+                });
+                await order.save();
+                res.status(statusCode.CREATED).json({
+                    success: true,
+                    message: 'Order created successfully',
+                    data: order,
+                });
+            }
+            else {
+                const order = new Order({
+                    id: uuidv4(),
+                    customer_id: new mongoose.Types.ObjectId(customer_id),
+                    items,
+                    total_price: calculatedTotalPrice,
+                    payment_status: 'pending',
+                    order_date
+                });
+                await order.save();
+                res.status(statusCode.CREATED).json({
+                    success: false,
+                    message: paymentRes.data.message,
+                    data: order,
+                });
+            }
         } catch (err) {
             next(err);
         }
