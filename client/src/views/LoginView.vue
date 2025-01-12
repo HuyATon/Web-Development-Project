@@ -26,7 +26,7 @@
 
 
                         <div class="text-center">
-                            <a class="btn mb-3" href="http://localhost:3000/auth/login/google" > 
+                            <a class="btn mb-3" href="https://localhost:3000/auth/login/google" > 
                                 <i class="bi bi-google text-danger"></i> <span> Continue with Google </span>
                             </a>
                         </div>
@@ -71,7 +71,7 @@ export default {
                 password: this.password
             }
             try {
-                const res = await axios.post('auth/login', body)
+                const res = await axios.post('/auth/login', body)
                 const data = res.data
                 const jwtToken = data.token 
                 localStorage.setItem('jwt', jwtToken)

@@ -61,6 +61,7 @@ export default createStore({
                     quantity: newQuantity
                 })
              }
+             alert('Added to cart')
         },
         async updateCart( { commit, getters, dispatch }, { product, quantity }) {
             // client update

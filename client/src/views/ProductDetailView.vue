@@ -124,7 +124,7 @@ export default {
     methods: {
         async loadProduct(id) {
             try {
-                const response = await axios.get(`http://localhost:3000/products/${id}`);
+                const response = await axios.get(`https://localhost:3000/products/${id}`);
                 this.product = response.data.data || {};
                 this.loadRelatedProducts(this.product.category);
             } catch (err) {
@@ -136,7 +136,7 @@ export default {
                 if (!category) return;
 
                 const response = await axios.get(
-                    `http://localhost:3000/products?category=${category.toLowerCase()}&limit=10`
+                    `https://localhost:3000/products?category=${category.toLowerCase()}&limit=10`
                 );
                 let products = response.data.data.products || [];
 
@@ -168,7 +168,7 @@ export default {
             if (this.quantity > 1) this.quantity--;
         },
         addToCart(product) {
-            alert(`Added ${this.quantity} of ${product.name} to the cart.`);
+            this.$store.dispatch('addToCart', product)
         },
     },
     watch: {

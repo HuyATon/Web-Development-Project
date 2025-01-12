@@ -14,6 +14,7 @@ import ShopView from '../views/ShopView.vue'
 import SearchView from '../views/SearchView.vue'
 import MyOrdersView from '../views/MyOrdersView.vue'
 import OrdersManagementView from '../views/OrdersManagementView.vue'
+import ProductDetailView from '@/views/ProductDetailView.vue'
 
 const routes = [
   {
@@ -96,6 +97,11 @@ const routes = [
     name: 'OrdersManagement',
     component: OrdersManagementView,
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/product/:id',
+    name: 'ProductDetailView',
+    component: ProductDetailView
   }
 ]
 

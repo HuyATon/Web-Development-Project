@@ -5,10 +5,14 @@ const statusCode = require('../constants/statusCode.js')
 const jwt = require('jsonwebtoken')
 const blackListConfig= require('../configs/jwtBlackListConfig.js')
 const axios = require('axios')
+const https = require('https')
 
 async function createPaymentAccount(userID) {
     const dest = process.env.PAYMENT_BASE_URL + '/account'
-    await axios.post(dest, { id: userID})
+    const agent = new https.Agent({
+        rejectUnauthorized: false
+    })
+    await axios.post(dest, { id: userID}, { httpsAgent: agent })
 }
 
 module.exports = {

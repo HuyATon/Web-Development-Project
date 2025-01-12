@@ -77,7 +77,7 @@ export default {
                     email: this.email,
                     name: this.name
                 }
-                const res = await axios.post('http://localhost:3000/auth/register', body)
+                const res = await axios.post('/auth/register', body)
                 const data = res.data
                 const feedback = { success: data.success, message: data.message}
                 this.showFeedback(feedback)
