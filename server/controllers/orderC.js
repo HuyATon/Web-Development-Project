@@ -116,7 +116,7 @@ module.exports = {
                 }
             });
             const paymentRes = await handlePayment(req, calculatedTotalPrice)
-            if (paymentRes.data.success) {
+            if (paymentRes.data.success === true) {
                 const order = new Order({
                     id: uuidv4(),
                     customer_id: new mongoose.Types.ObjectId(customer_id),

@@ -125,7 +125,8 @@ export default {
                     payment_status: 'pending',
                     order_date: new Date()
                 })
-                this.showMessage(true, "Order placed successfully")
+                const data = response.data
+                this.showMessage(data.success, data.message)
             } catch (error) {
                 this.showMessage(false, error.response?.data?.message || error.message) 
             }
