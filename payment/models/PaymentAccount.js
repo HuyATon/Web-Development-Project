@@ -8,7 +8,7 @@ const PaymentAccountSchema = new mongoose.Schema({
     },
     balance: {
         type: Number,
-        default: 1000 // Initial balance
+        default: 100 // Initial balance
     }
 }) 
 const PaymentAccount = mongoose.model('PaymentAccount', PaymentAccountSchema)
