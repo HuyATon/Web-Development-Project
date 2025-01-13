@@ -1,43 +1,48 @@
 <template>
-        <div>
-            <div class="row align-items-center p-5" id='view-container'>
-                <div class="col text-center">
-                    <h1 class="text-dark"> <strong > Login </strong> to your account</h1>
-                </div>
-                <div class="col-lg-5 bg-ultra-thin rounded py-3 px-5">
-                    <form @submit.prevent>
-                        <div class="form-outline mb-4">
-                            <label class="form-label fw-bold text-small text-right" for="form2Example17"><small> Username </small></label>
-                            <input type="text" v-model=username id="form2Example17" class="form-control form-control-lg" required />
-                        </div>
-
-                        <div class="form-outline mb-4">
-                            <label class="form-label fw-bold" for="form2Example27"><small>Password</small></label>
-                            <input type="password" v-model=password id="form2Example27" class="form-control form-control-lg" required/>
-                        </div>
-
-                        <div v-if="error" class="alert alert-danger text-center" role="alert">
-                            {{ error }}
-                        </div>
-
-                        <div class="pt-1 mb-4 text-center">
-                            <button class="btn btn-dark btn-lg w-100 fw-bold rounded " type="submit" @click=handleSignIn>Sign In</button>
-                        </div>
-
-
-                        <div class="text-center">
-                            <a class="btn mb-3" href="https://localhost:3000/auth/login/google" > 
-                                <i class="bi bi-google text-danger"></i> <span> Continue with Google </span>
-                            </a>
-                        </div>
-                        
-                        <div class="text-center">
-                            <p> Don't have an account? <router-link to="/register" class="text-dark "> Register </router-link> </p>
-                        </div>
-                        </form>
-                </div>
+    <div>
+        <div class="row align-items-center p-5" id='view-container'>
+            <div class="col text-center">
+                <h1 class="text-dark"> <strong> Login </strong> to your account</h1>
             </div>
-        <Footer/>
+            <div class="col-lg-5 bg-ultra-thin rounded py-3 px-5">
+                <form @submit.prevent>
+                    <div class="form-outline mb-4">
+                        <label class="form-label fw-bold text-small text-right" for="form2Example17"><small> Username
+                            </small></label>
+                        <input type="text" v-model=username id="form2Example17" class="form-control form-control-lg"
+                            required />
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <label class="form-label fw-bold" for="form2Example27"><small>Password</small></label>
+                        <input type="password" v-model=password id="form2Example27" class="form-control form-control-lg"
+                            required />
+                    </div>
+
+                    <div v-if="error" class="alert alert-danger text-center" role="alert">
+                        {{ error }}
+                    </div>
+
+                    <div class="pt-1 mb-4 text-center">
+                        <button class="btn btn-dark btn-lg w-100 fw-bold rounded " type="submit"
+                            @click=handleSignIn>Sign In</button>
+                    </div>
+
+
+                    <div class="text-center">
+                        <a class="btn mb-3" href="https://localhost:3000/auth/login/google">
+                            <i class="bi bi-google text-danger"></i> <span> Continue with Google </span>
+                        </a>
+                    </div>
+
+                    <div class="text-center">
+                        <p> Don't have an account? <router-link to="/register" class="text-dark "> Register
+                            </router-link> </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <Footer />
     </div>
 </template>
 
@@ -73,13 +78,19 @@ export default {
             try {
                 const res = await axios.post('/auth/login', body)
                 const data = res.data
-                const jwtToken = data.token 
+                const jwtToken = data.token
                 localStorage.setItem('jwt', jwtToken)
                 this.saveLoggedUser()
                 this.$store.dispatch('loadCart')
-                router.push({ name: 'Home'})
+                // window.location.reload() // Reload the page after login
+                // router.push({ name: 'Home'})
+                this.$router.push({ name: 'Home' }).then(() => {
+                    window.location.reload() // Reload the page after navigating to home
+                })
+
+
             }
-            catch (err) { this.showError(err.response.data.message || err.message ) } 
+            catch (err) { this.showError(err.response.data.message || err.message) }
         },
         handleGoogleLogin() {
             const urlParams = new URLSearchParams(window.location.search)
@@ -88,7 +99,13 @@ export default {
                 localStorage.setItem('jwt', token)
                 this.saveLoggedUser()
                 this.$store.dispatch('loadCart')
-                router.push({ name: 'Home'})
+                // window.location.reload() // Reload the page after login
+                // router.push({ name: 'Home'})
+                this.$router.push({ name: 'Home' }).then(() => {
+                    window.location.reload() // Reload the page after navigating to home
+                })
+
+
             }
         },
         async saveLoggedUser() {

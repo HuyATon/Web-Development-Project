@@ -126,7 +126,13 @@ export default {
       try {
         await axios.get("/auth/logout");
         localStorage.removeItem("jwt");
-        this.$router.push({ name: "Home" });
+        this.$store.dispatch('setUser', null); // Clear user state
+        // window.location.reload(); // Reload the page after logout
+        // this.$router.push({ name: "Home" });
+        this.$router.push({ name: 'Home' }).then(() => {
+          window.location.reload(); // Reload the page after navigating to home
+        });
+        
       } catch (error) {
         console.error("Logout failed", error);
       }

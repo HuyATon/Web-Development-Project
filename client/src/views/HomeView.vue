@@ -227,7 +227,7 @@ export default {
 /* Add your styles here */
 /* Hero */
 .hero {
-  background: url('https://s3-alpha-sig.figma.com/img/98fb/219f/a11f805aade2224f1d6658764a2395df?Expires=1736726400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=TcVSCt1gVi6P60SSTygMFPjBvkFI145WeMkfMUP4grhjUie5XcpoP8aGJSo~HADl0Tf2qM0lBB86j1Ft9fhJRMkyvepVWSI7tJ7lnit3K-vX0yNWRflR2lHjzYv~pxdQ6fJK2nKQjMTs8U6DwbqUcwg75Eae0v6tnmk9mcoSvDcTB23dASZpwyGhOSarxB-jgquPX36qJw144mP0HLMh5PiB-b8nIy7lZO136Esp4S-0vxkxd6w0KhheRlqUTpVArd1skkbFPzbJ4xVRHGKXGCb8NKv57J7atuMQk4awZtqkcgVBiBFCJ9FO6fRm8jiwr9lHj1qDwy3CBGmdRlYhtw__') no-repeat center center;
+  background: url('../assets/home-bg.jfif') no-repeat center center;
   background-size: cover;
   height: 80vh;
 }

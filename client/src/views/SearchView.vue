@@ -45,7 +45,7 @@
         <div v-if="products.length > 0" class="row p-4">
             <div v-for="product in products" :key="product._id" class="col-md-3 col-6 mb-4">
                 <div class="card">
-                    <img :src="product.image_path" class="card-img-top" style="height: 300px;">
+                    <img @click=goToDetail(product) :src="product.image_path" class="card-img-top tappable" style="height: 300px;">
                     <div class="card-body">
                         <h6 class="fw-bold"> {{ product.name }}</h6>
                         <p class="card-text"> {{ product.category }} </p>
@@ -173,6 +173,9 @@ export default {
         },
         addToCart(product) {
             this.$store.dispatch('addToCart', product)
+        },
+        goToDetail(product) {
+            this.$router.push({ name: 'ProductDetailView', params: { id: product._id }})
         }
     },
     mounted() {
