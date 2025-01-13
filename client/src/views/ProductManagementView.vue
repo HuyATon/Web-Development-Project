@@ -312,12 +312,14 @@
 <script>
 import axios from "axios";
 import Toast from "@/components/Toast.vue";
+import Footer from "@/components/Footer.vue";
 import { debounce } from "lodash";
 
 export default {
     name: "ProductManagement",
     components: {
         Toast,
+        Footer,
     },
     data() {
         return {
