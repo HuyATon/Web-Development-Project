@@ -323,6 +323,8 @@ hr {
 
 .content_detail__detail--list {
     margin-left: 10px;
+    min-width: 50%;
+
 }
 
 .content_detail__detail--item {
