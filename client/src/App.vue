@@ -98,7 +98,7 @@ nav a.router-link-exact-active {
             <li class="nav-item">
               <router-link class="nav-link text-black fw-bold" to="/about">About</router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="!isAdmin">
               <router-link class="nav-link text-black fw-bold" to="/cart">Cart</router-link>
             </li>
             
