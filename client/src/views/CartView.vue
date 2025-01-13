@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div v-if="cart.entries.length !== 0">
         <div id="toast-container" class="position-relative" ref="toastContainer">
-            <Toast v-if="toastMsg.length > 0" :message="toastMsg" :success="toastSuccess" />
+            <Toast v-if="toastMsg.length > 0" :message="toastMsg" :success="toastSuccess"/>
         </div>
         <div class="row px-5 gx-4 my-4">
             <div class="col-md-8">
@@ -17,7 +17,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(entry, index) in cart.entries" :key="entry.product._id">
+                        <tr v-for="(entry, index) in cart.entries" :key="entry">
                             <td class="align-middle"> {{ index + 1 }}</td>
                             <td>
                                 <div class="d-flex align-items-center">
@@ -34,8 +34,6 @@
                                 <button class="btn btn-light" @click="removeFromCart(entry.product)"> <i class="bi bi-trash3-fill"></i> </button>
                             </td>
                         </tr>
-
-
                     </tbody>
                     </table>
             </div>
@@ -105,7 +103,9 @@ export default {
     async mounted() {
         // set up cart
         await this.$store.dispatch('loadCart')
-    }
+    },
+    
+
 }
 </script>
 

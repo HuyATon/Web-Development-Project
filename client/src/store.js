@@ -8,7 +8,7 @@ export default createStore({
         user: null,
         cart: {
             _id: null,
-            customerID: null,
+            customer: null,
             entries: []
         },
     },
@@ -32,7 +32,12 @@ export default createStore({
             state.cart = cart
         },
         addToCart: (state, product) => {
-            const oldProduct = state.cart.entries.find(entry => { return entry.product._id === product._id })
+            const oldProduct = state.cart.entries.find(entry => { 
+                if (entry.product?._id) {
+                    return entry.product._id === product._id
+                }
+                return false
+            })
             if (oldProduct) {
                 oldProduct.quantity++
             }
@@ -55,7 +60,13 @@ export default createStore({
             if (getters.cartDidSave) {          
                 // server update
                 const cart = getters.cart
-                const newQuantity = cart.entries.find(entry => entry.product._id === product._id).quantity || 1
+                const updatedEntry = cart.entries.find(entry => {
+                    if (entry.product?._id) {
+                        return entry.product._id === product._id
+                    }
+                    return false
+                })
+                const newQuantity = updatedEntry.quantity || 1
                 await axios.patch('/cart', {
                     product: product,
                     quantity: newQuantity
@@ -80,6 +91,8 @@ export default createStore({
         },
         async loadCart({ commit, getters }) {
             try {
+                console.log('foo')
+
                 const response = await axios.get('/cart')
                 const data = response.data
                 if (data.success) {
@@ -90,6 +103,7 @@ export default createStore({
                         entries: fetchedCart.entries
                     }
                     commit('setCart', cart)
+                    console.log(this.state.cart)
                 }
                 else { // user has no cart
                     const currentEntries = getters.cart.entries.map(entry => {

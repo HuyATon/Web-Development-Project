@@ -45,7 +45,11 @@ module.exports = {
             res.json({
                 success: true,
                 data: {
-                    cart: cart
+                    cart: {
+                        _id: cart._id,
+                        customer: cart.customer,
+                        entries: cart.entries
+                    }
                 }
             })
         } catch (err) {

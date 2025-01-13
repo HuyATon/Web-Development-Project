@@ -5,13 +5,13 @@
     <div class="row">
       <!-- Sidebar for navigation -->
       <div class="col-md-3">
-        <div class="card shadow-sm">
+        <div class="card shadow-sm h-100">
           <div class="card-body">
             <div class="d-flex flex-column align-items-center">
               <img src="../assets/hcmus-logo.png" alt="Profile Image" class="rounded-circle mb-2" width="120"
                 height="120" />
               <h5>{{ userInfo.name }}</h5>
-              <button class="btn btn-outline-secondary w-100 mt-3" @click="handleLogout">Sign Out</button>
+              <button class="btn btn-danger w-100 mt-3" @click="handleLogout">Sign Out</button>
             </div>
             <hr />
             <ul class="list-unstyled">
@@ -44,7 +44,7 @@
               </div>
 
               <div class="d-flex justify-content-end mt-4">
-                <button type="submit" class="btn btn-primary" :disabled="!isChanged">Save Changes</button>
+                <button type="submit" class="btn btn-dark" :disabled="!isChanged">Save Changes</button>
               </div>
             </form>
           </div>
@@ -190,14 +190,14 @@ h2 {
 }
 
 button[type="submit"] {
-  background-color: #f79c42;
+  /* background-color: #f79c42; */
   border: none;
   color: white;
 }
 
-button[type="submit"]:hover {
+/* button[type="submit"]:hover {
   background-color: #f39c12;
-}
+} */
 
 button[type="submit"]:disabled {
   background-color: #e0e0e0;
