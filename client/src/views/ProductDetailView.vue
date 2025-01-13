@@ -28,13 +28,13 @@
                             </li>
                         </ul>
                         <ul class="product-stat" v-if="product.dimensions">
-                            <li class="content_detail__detail--item product-stat__size">
+                            <!-- <li class="content_detail__detail--item product-stat__size">
                                 Size: {{ product.dimensions.width || '?' }}cm x
                                 {{ product.dimensions.depth || '?' }}cm
                             </li>
                             <li class="content_detail__detail--item product-stat__height">
                                 Height: {{ product.dimensions.height || '?' }}cm
-                            </li>
+                            </li> -->
                             <li class="content_detail__detail--item product-stat__weight">
                                 Weight: {{ product.weight || '?' }} kg
                             </li>
@@ -53,22 +53,22 @@
                         </ul>
                         <hr />
                         <ul class="info">
-                            <ul class="info-row">
+                            <!-- <ul class="info-row">
                                 <li class="info-label">SKU</li>
                                 <li class="info-value">: {{ product.sku || 'Unknown' }}</li>
-                            </ul>
+                            </ul> -->
                             <ul class="info-row">
                                 <li class="info-label">Category</li>
                                 <li class="info-value">: {{ product.category || 'Uncategorized' }}</li>
                             </ul>
-                            <ul class="info-row">
+                            <!-- <ul class="info-row">
                                 <li class="info-label">Wood Type</li>
                                 <li class="info-value">: {{ product.wood_type || 'Unknown' }}</li>
                             </ul>
                             <ul class="info-row">
                                 <li class="info-label">Finish</li>
                                 <li class="info-value">: {{ product.finish || 'Unknown' }}</li>
-                            </ul>
+                            </ul> -->
                         </ul>
                     </ul>
                 </div>
