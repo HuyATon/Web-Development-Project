@@ -6,6 +6,8 @@ module.exports = {
             const userID = req.user.id
             const amount = req.body.amount 
             const account = await PaymentAccount.findOne({ user: userID })
+            console.log(amount)
+            console.log(account)
             if (!account) {
                 return res.status(404).json({
                     success: false,

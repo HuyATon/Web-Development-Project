@@ -1,5 +1,8 @@
 <template>
     <div>
+    <div id="toast-container" class="position-relative">
+        <Toast v-if="toastMsg" :message="toastMsg" :success="toastSuccess"/>
+    </div>
     <div class="row justify-content-around mb-5 mx-4">
         <div class="col-md-5 bg-light p-4 rounded">
             <h3 class="fw-bolder mb-4">Billing Details</h3>
@@ -62,12 +65,14 @@
 
 <script>
 import Footer from '@/components/Footer.vue'
+import Toast from '@/components/Toast.vue'
 import axios from 'axios'
 
 export default {
     name: 'Checkout',
     components: {
-        Footer
+        Footer,
+        Toast
     },
     data() {
         return {
@@ -76,6 +81,9 @@ export default {
             address: '',
             phone: '',
             email: '',
+
+            toastMsg: "",
+            toastSuccess: null,
         }
     },
     computed: {
@@ -102,6 +110,7 @@ export default {
             }
         },
         async handleOrder() {
+            this.clearMessage()
             try {
                 const items = this.cart.entries.map(entry => {
                     return {
@@ -116,11 +125,19 @@ export default {
                     payment_status: 'pending',
                     order_date: new Date()
                 })
-                alert(response.data.message)
+                this.showMessage(true, "Order placed successfully")
             } catch (error) {
-                alert(error)
+                this.showMessage(false, error.response?.data?.message || error.message) 
             }
-        }
+        },
+        clearMessage() {
+            this.toastMsg = ""
+            this.toastSuccess = null
+        },
+        showMessage(success, message) {
+            this.toastSuccess = success
+            this.toastMsg = message
+        },
     },
     async mounted() {
         this.$store.dispatch('loadCart')

@@ -14,7 +14,7 @@ module.exports = {
             }
             const account = PaymentAccount({
                 user: userID,
-                balance: 10000 //
+                balance: 100 //
             })
             await account.save()
             res.json({
