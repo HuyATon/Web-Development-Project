@@ -14,10 +14,10 @@
               <router-link class="nav-link text-black fw-bold" to="/" exact>Home</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link text-black fw-bold" to="/shop">Shop</router-link>
+              <router-link v-if="!isAdmin" class=" nav-link text-black fw-bold" to="/shop">Shop</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link text-black fw-bold" to="/about">About</router-link>
+              <router-link  v-if="!isAdmin" class="nav-link text-black fw-bold" to="/about">About</router-link>
             </li>
             
             
