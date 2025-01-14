@@ -41,7 +41,7 @@
           <router-link :to="authRoute" class="me-3 text-black" title="Profile"><i class="bi bi-person"></i></router-link>
           <router-link to="/search" class="me-3 text-black" title="Search"><i class="bi bi-search"></i></router-link>
           <router-link v-if="isAuthenticated && !isAdmin" to="/order" class="me-3 text-black" title="My Order"><i class="bi bi-box"></i></router-link>
-          <router-link v-if="isAuthenticated && !isAdmin" to="/cart" class="text-black" title="Cart"><i class="bi bi-cart"></i></router-link>
+          <router-link to="/cart" class="text-black" title="Cart"><i class="bi bi-cart"></i></router-link>
         </div>
       </div>
       </div>
